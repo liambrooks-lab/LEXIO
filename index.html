@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LEXIO - Professional TTS</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div id="loginPage" class="auth-container">
+        <h1>Welcome to LEXIO</h1>
+        <p>Login to access the Enterprise TTS Engine</p>
+        <button id="googleLoginBtn"><i class="fab fa-google"></i> Login with Google</button>
+    </div>
+
+    <div id="mainApp" style="display: none;">
+        <header>
+            <h1>Tired of watching out for TTL's and ended up getting paid and expensive TL's ?! 😂 HERE'S WHAT I HAVE FOR YOU!!</h1>
+        </header>
+
+        <main class="container">
+            <div class="input-section">
+                <textarea id="inputText" placeholder="Paste your code or document here..."></textarea>
+                <div id="displayText" class="display-area"></div>
+            </div>
+
+            <div class="controls-section">
+                <div class="voice-settings">
+                    <label for="voiceSelect">Select Voice:</label>
+                    <select id="voiceSelect">
+                        <option value="default">Loading Voices...</option>
+                    </select>
+
+                    <div class="sliders">
+                        <div class="slider-group">
+                            <label>Speed: <span id="speedValue">1x</span></label>
+                            <input type="range" id="speedRange" min="0.5" max="2" step="0.1" value="1">
+                        </div>
+                        <div class="slider-group">
+                            <label>Pitch: <span id="pitchValue">1</span></label>
+                            <input type="range" id="pitchRange" min="0" max="2" step="0.1" value="1">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button id="startBtn" class="btn-primary"><i class="fas fa-play"></i> Start Reading</button>
+                    <button id="pauseBtn" class="btn-secondary" disabled><i class="fas fa-pause"></i> Pause</button>
+                    <button id="resumeBtn" class="btn-secondary" disabled><i class="fas fa-play-circle"></i> Resume</button>
+                    <button id="stopBtn" class="btn-danger" disabled><i class="fas fa-stop"></i> Stop</button>
+                </div>
+
+                <div class="export-group">
+                    <button id="exportMp3Btn">Export MP3</button>
+                    <button id="exportWavBtn">Export WAV</button>
+                </div>
+            </div>
+        </main>
+
+        <div id="status" class="status-bar"></div>
+        <div class="progress-container">
+            <div id="progressBar" class="progress-bar"></div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script src="js/utils.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/speech.js"></script> <script src="js/fileHandler.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
