@@ -10,67 +10,139 @@
 </head>
 <body>
 
-    <div id="loginPage" class="auth-container">
-        <h1>Welcome to LEXIO</h1>
-        <p>Login to access the Enterprise TTS Engine</p>
-        <button id="googleLoginBtn"><i class="fab fa-google"></i> Login with Google</button>
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">LEXIO</div>
     </div>
 
-    <div id="mainApp" style="display: none;">
-        <header>
-            <h1>Tired of watching out for TTL's and ended up getting paid and expensive TL's ?! 😂 HERE'S WHAT I HAVE FOR YOU!!</h1>
-        </header>
-
-        <main class="container">
-            <div class="input-section">
-                <textarea id="inputText" placeholder="Paste your code or document here..."></textarea>
-                <div id="displayText" class="display-area"></div>
-            </div>
-
-            <div class="controls-section">
-                <div class="voice-settings">
-                    <label for="voiceSelect">Select Voice:</label>
-                    <select id="voiceSelect">
-                        <option value="default">Loading Voices...</option>
-                    </select>
-
-                    <div class="sliders">
-                        <div class="slider-group">
-                            <label>Speed: <span id="speedValue">1x</span></label>
-                            <input type="range" id="speedRange" min="0.5" max="2" step="0.1" value="1">
-                        </div>
-                        <div class="slider-group">
-                            <label>Pitch: <span id="pitchValue">1</span></label>
-                            <input type="range" id="pitchRange" min="0" max="2" step="0.1" value="1">
-                        </div>
-                    </div>
-                </div>
-
-                <div class="button-group">
-                    <button id="startBtn" class="btn-primary"><i class="fas fa-play"></i> Start Reading</button>
-                    <button id="pauseBtn" class="btn-secondary" disabled><i class="fas fa-pause"></i> Pause</button>
-                    <button id="resumeBtn" class="btn-secondary" disabled><i class="fas fa-play-circle"></i> Resume</button>
-                    <button id="stopBtn" class="btn-danger" disabled><i class="fas fa-stop"></i> Stop</button>
-                </div>
-
-                <div class="export-group">
-                    <button id="exportMp3Btn">Export MP3</button>
-                    <button id="exportWavBtn">Export WAV</button>
+    <div id="loginPage" class="login-page">
+        <div class="login-container">
+            <div class="login-header">
+                <div class="logo-container">
+                    <h1 class="logo-text">LEXIO<span class="cursor">_</span></h1>
+                    <p class="tagline">Enterprise Text-to-Speech Engine</p>
                 </div>
             </div>
-        </main>
-
-        <div id="status" class="status-bar"></div>
-        <div class="progress-container">
-            <div id="progressBar" class="progress-bar"></div>
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" required placeholder="John Doe">
+                </div>
+                <div class="form-group">
+                    <label for="email">Work Email</label>
+                    <input type="email" id="email" required placeholder="john@company.com">
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" required placeholder="+1 (555) 000-0000">
+                </div>
+                <button type="submit" class="login-btn">
+                    Access Studio <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+            <div class="login-footer">
+                <p>Secure Enterprise Access</p>
+                <div class="trust-badges">
+                    <span><i class="fas fa-shield-alt"></i> SSL Encrypted</span>
+                    <span><i class="fas fa-server"></i> Local Processing</span>
+                </div>
+            </div>
         </div>
     </div>
 
+    <div id="mainApp" class="main-app" style="display: none;">
+        <nav class="navbar">
+            <div class="nav-brand">
+                <h1 class="brand-text">LEXIO <span class="badge badge-premium">PRO</span></h1>
+            </div>
+            <div class="nav-user">
+                <div class="user-info">
+                    <span class="user-greeting">Welcome, <span id="userName">User</span></span>
+                    <span class="user-role">Enterprise License</span>
+                </div>
+                <div id="userAvatar" class="user-avatar"><span id="userInitials">U</span></div>
+                <button id="logoutBtn" class="logout-btn" title="Logout"><i class="fas fa-sign-out-alt"></i></button>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            <div class="editor-layout">
+                <div class="input-section card">
+                    <div class="section-header">
+                        <label for="inputText"><i class="fas fa-file-alt"></i> Source Document</label>
+                        <div class="file-actions">
+                            <span id="charCounter" class="badge badge-primary">0/50000</span>
+                            <button id="uploadBtn" class="btn-icon" title="Upload File (.txt, .pdf)"><i class="fas fa-upload"></i></button>
+                            <button id="clearBtn" class="btn-icon" title="Clear Text"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                    <textarea id="inputText" class="form-input" style="height: 300px;" placeholder="Paste your code, documentation, or notes here... Or drag and drop a file!"></textarea>
+                    <div id="displayText" class="display-text" style="display: none;"></div>
+                </div>
+
+                <aside class="controls-section">
+                    <div class="control-card">
+                        <h3><i class="fas fa-sliders-h"></i> Voice Settings</h3>
+                        <div class="setting-item">
+                            <label for="voiceSelect">Voice Engine</label>
+                            <select id="voiceSelect" class="form-input">
+                                <option value="default">Loading Voices...</option>
+                            </select>
+                        </div>
+                        <div class="sliders">
+                            <div class="slider-group">
+                                <div class="slider-label">
+                                    <span>Speed</span>
+                                    <span id="speedValue" class="val-badge">1.0x</span>
+                                </div>
+                                <input type="range" id="speedRange" min="0.5" max="2" step="0.1" value="1">
+                            </div>
+                            <div class="slider-group">
+                                <div class="slider-label">
+                                    <span>Pitch</span>
+                                    <span id="pitchValue" class="val-badge">1.0</span>
+                                </div>
+                                <input type="range" id="pitchRange" min="0" max="2" step="0.1" value="1">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="control-card playback-controls">
+                        <h3><i class="fas fa-play-circle"></i> Playback</h3>
+                        <div class="button-grid">
+                            <button id="startBtn" class="btn btn-primary"><i class="fas fa-play"></i> Start</button>
+                            <button id="pauseBtn" class="btn btn-secondary" disabled><i class="fas fa-pause"></i> Pause</button>
+                            <button id="resumeBtn" class="btn btn-secondary" disabled><i class="fas fa-play-circle"></i> Resume</button>
+                            <button id="stopBtn" class="btn btn-danger" disabled><i class="fas fa-stop"></i> Stop</button>
+                        </div>
+                    </div>
+
+                    <div class="control-card stats-panel">
+                        <h3><i class="fas fa-chart-bar"></i> Document Stats</h3>
+                        <div class="stats-container" style="display: flex; justify-content: space-between; text-align: center;">
+                            <div><span id="wordCount" class="stat-value">0</span><span class="stat-label">Words</span></div>
+                            <div><span id="charCount" class="stat-value">0</span><span class="stat-label">Chars</span></div>
+                            <div><span id="timeEstimate" class="stat-value">0s</span><span class="stat-label">Est. Time</span></div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </main>
+
+        <footer class="app-footer">
+            <div id="status" class="status-indicator" style="display: none;">Ready</div>
+            <div class="progress-container">
+                <div id="progressBar" class="progress-bar" style="width: 0%;"></div>
+            </div>
+        </footer>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    
     <script src="js/utils.js"></script>
-    <script src="js/auth.js"></script>
-    <script src="js/speech.js"></script> <script src="js/fileHandler.js"></script>
-    <script src="script.js"></script>
+    <script src="script.js"></script> <script src="js/auth.js"></script>
+    <script src="js/speech.js"></script> 
+    <script src="js/fileHandler.js"></script>
 
 </body>
 </html>

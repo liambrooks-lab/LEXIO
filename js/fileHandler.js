@@ -2,186 +2,91 @@
  * LEXIO - File Handler Module
  */
 
-// Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
     initFileHandler();
 });
 
 function initFileHandler() {
-    // DOM Elements
-    const fileInput = document.getElementById('fileInput');
-    const fileInfo = document.getElementById('fileInfo');
-    const uploadArea = document.getElementById('uploadArea');
-
-    // Maximum file size (10MB)
+    const uploadBtn = document.getElementById('uploadBtn');
+    const dropZone = document.querySelector('.input-section'); // Bind drop to the whole card
+    const inputText = document.getElementById('inputText');
     const MAX_FILE_SIZE = 10 * 1024 * 1024;
+    const SUPPORTED_TYPES = { 'txt': 'text/plain', 'pdf': 'application/pdf' };
 
-    // Supported file types
-    const SUPPORTED_TYPES = {
-        'txt': 'text/plain',
-        'pdf': 'application/pdf',
-        'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'epub': 'application/epub+zip'
-    };
-
-    // Safe showStatus function
-    function showSafeStatus(message, type = 'info') {
-        if (typeof window.showStatus === 'function') {
-            window.showStatus(message, type);
-        } else {
-            console.log(`[${type}] ${message}`);
-            // Try to find status element
-            const statusEl = document.getElementById('status');
-            if (statusEl) {
-                statusEl.textContent = message;
-                statusEl.style.display = 'block';
-                const colors = {
-                    success: '#10B981',
-                    error: '#EF4444',
-                    warning: '#F59E0B',
-                    info: '#3B82F6'
-                };
-                statusEl.style.background = colors[type] + '20';
-                statusEl.style.color = colors[type];
-                statusEl.style.border = `1px solid ${colors[type]}40`;
-                
-                setTimeout(() => {
-                    if (statusEl) statusEl.style.display = 'none';
-                }, 3000);
-            }
-        }
+    // Dynamically create the hidden file input if it doesn't exist
+    let fileInput = document.getElementById('fileInput');
+    if (!fileInput) {
+        fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.id = 'fileInput';
+        fileInput.style.display = 'none';
+        fileInput.accept = '.txt,.pdf';
+        document.body.appendChild(fileInput);
     }
 
-    // Safe formatFileSize function
-    function formatFileSize(bytes) {
-        if (bytes === 0) return '0 Bytes';
-        const k = 1024;
-        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(k));
-        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+    // Button click triggers file input
+    if (uploadBtn) {
+        uploadBtn.addEventListener('click', () => fileInput.click());
     }
 
-    // Safe addActivity function
-    function addSafeActivity(message) {
-        if (typeof window.addActivity === 'function') {
-            window.addActivity(message);
-        } else {
-            console.log('Activity:', message);
-        }
-    }
-
-    // Check if elements exist before adding listeners
-    if (!uploadArea || !fileInput || !fileInfo) {
-        console.warn('File handler elements not found');
-        return;
-    }
-
-    // Click to upload
-    uploadArea.addEventListener('click', () => {
-        fileInput.click();
-    });
-    
-    // Drag and drop
-    uploadArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        uploadArea.classList.add('dragover');
-    });
-    
-    uploadArea.addEventListener('dragleave', () => {
-        uploadArea.classList.remove('dragover');
-    });
-    
-    uploadArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        uploadArea.classList.remove('dragover');
+    // Drag and Drop Logic
+    if (dropZone) {
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.border = '2px dashed var(--primary)';
+            dropZone.style.backgroundColor = 'rgba(139, 92, 246, 0.05)';
+        });
         
-        const files = e.dataTransfer.files;
-        if (files.length > 0) {
-            handleFile(files[0]);
-        }
-    });
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.style.border = '';
+            dropZone.style.backgroundColor = '';
+        });
+        
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.border = '';
+            dropZone.style.backgroundColor = '';
+            if (e.dataTransfer.files.length > 0) handleFile(e.dataTransfer.files[0]);
+        });
+    }
 
-    // File input change
+    // Input Change
     fileInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            handleFile(file);
-        }
+        if (e.target.files[0]) handleFile(e.target.files[0]);
+        e.target.value = ''; // Reset so same file can be uploaded again
     });
 
-    /**
-     * Handle uploaded file
-     * @param {File} file - Uploaded file
-     */
     async function handleFile(file) {
-        // Check file size
         if (file.size > MAX_FILE_SIZE) {
-            showSafeStatus('File too large. Maximum size is 10MB', 'error');
-            if (fileInfo) fileInfo.textContent = 'File too large';
-            return;
+            return window.showStatus('File too large. Maximum size is 10MB', 'error');
         }
         
-        // Get file extension
         const extension = file.name.split('.').pop().toLowerCase();
-        
-        // Check if supported
         if (!SUPPORTED_TYPES[extension]) {
-            showSafeStatus('Unsupported file type. Please upload TXT or PDF', 'error');
-            if (fileInfo) fileInfo.textContent = 'Unsupported type';
-            return;
+            return window.showStatus('Unsupported file type. Please upload TXT or PDF', 'error');
         }
         
-        // Show file info
-        if (fileInfo) {
-            fileInfo.textContent = `${file.name} (${formatFileSize(file.size)})`;
-        }
-        showSafeStatus('Processing file...', 'info');
+        window.showStatus(`Processing ${file.name}...`, 'info');
         
         try {
             let text = '';
-            
-            // Handle different file types
-            switch (extension) {
-                case 'txt':
-                    text = await readTxtFile(file);
-                    break;
-                case 'pdf':
-                    text = await readPdfFile(file);
-                    break;
-                case 'docx':
-                    showSafeStatus('DOCX support coming soon!', 'info');
-                    return;
-                case 'epub':
-                    showSafeStatus('EPUB support coming soon!', 'info');
-                    return;
-                default:
-                    throw new Error('Unsupported file type');
+            if (extension === 'txt') {
+                text = await readTxtFile(file);
+            } else if (extension === 'pdf') {
+                text = await readPdfFile(file);
             }
             
-            // Update textarea
-            const inputText = document.getElementById('inputText');
             if (inputText) {
                 inputText.value = text;
-                // Trigger input event to update counters
-                const event = new Event('input', { bubbles: true });
-                inputText.dispatchEvent(event);
+                inputText.dispatchEvent(new Event('input', { bubbles: true }));
+                window.showStatus('File loaded successfully!', 'success');
             }
-            
-            showSafeStatus('File loaded successfully!', 'success');
-            addSafeActivity(`Loaded file: ${file.name}`);
-            
         } catch (error) {
-            console.error('File processing error:', error);
-            showSafeStatus('Error processing file: ' + error.message, 'error');
-            if (fileInfo) fileInfo.textContent = 'Error loading file';
+            console.error('File error:', error);
+            window.showStatus('Error reading file', 'error');
         }
     }
 
-    /**
-     * Read text file
-     * @param {File} file - Text file
-     * @returns {Promise<string>} File contents
-     */
     function readTxtFile(file) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -191,35 +96,20 @@ function initFileHandler() {
         });
     }
 
-    /**
-     * Read PDF file using PDF.js
-     * @param {File} file - PDF file
-     * @returns {Promise<string>} Extracted text
-     */
     async function readPdfFile(file) {
-        // Check if pdfjsLib is available
-        if (typeof pdfjsLib === 'undefined') {
-            throw new Error('PDF.js library not loaded');
-        }
-        
+        if (typeof pdfjsLib === 'undefined') throw new Error('PDF.js library not loaded');
         try {
             const arrayBuffer = await file.arrayBuffer();
             const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
-            
             let text = '';
-            
             for (let i = 1; i <= pdf.numPages; i++) {
                 const page = await pdf.getPage(i);
                 const content = await page.getTextContent();
-                const pageText = content.items.map(item => item.str).join(' ');
-                text += pageText + '\n\n';
+                text += content.items.map(item => item.str).join(' ') + '\n\n';
             }
-            
             return text;
         } catch (error) {
-            throw new Error('Failed to read PDF: ' + error.message);
+            throw new Error('Failed to parse PDF content');
         }
     }
-
-    console.log('✅ File Handler module loaded');
 }
