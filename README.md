@@ -5,11 +5,20 @@
 ![Platform](https://img.shields.io/badge/platform-web-3B82F6)
 ![Status](https://img.shields.io/badge/status-stable-10B981)
 
+🌍 **Choose your language / अपनी भाषा चुनें:**
+* [🇬🇧 Read in English (Default)](#english-documentation)
+* [🇮🇳 हिंदी में पढ़ें (Read in Hindi)](#hindi-documentation)
+
+---
+
+<a id="english-documentation"></a>
+## 🇬🇧 English Documentation
+
 > Transform text into natural speech with enterprise-grade controls and real-time word highlighting. Built for accessibility, education, and professional content creation.
 
 ---
 
-## ✨ Features
+### ✨ Features
 
 | Feature | Description |
 |---------|-------------|
@@ -26,13 +35,13 @@
 
 ---
 
-## 🚀 Live Demo
+### 🚀 Live Demo
 
 **[Launch LEXIO Studio →](https://liambrooks-lab.github.io/LEXIO/)**
 
 ---
 
-## 🛠️ Technology Stack
+### 🛠️ Technology Stack
 
 | Technology | Purpose |
 |------------|---------|
@@ -45,8 +54,9 @@
 
 ---
 
-## 📁 Project Structure
+### 📁 Project Structure
 
+```text
 LEXIO/
 ├── index.html # Main entry point
 ├── styles.css # Core styles and layout
@@ -72,89 +82,3 @@ LEXIO/
 │ └── deploy.yml # Auto-deployment workflow
 ├── FUNDING.yml # Sponsor configuration
 └── PULL_REQUEST_TEMPLATE.md
-
-
----
-
-## 🚦 Quick Start
-
-### Prerequisites
-- A modern web browser (Chrome, Firefox, Safari, Edge)
-- Local server (optional, recommended for PDF support)
-
-### Installation
-
-# Clone the repository
-git clone https://github.com/liambrooks-lab/LEXIO.git
-
-# Navigate to project directory
-cd LEXIO
-
-# Open in browser
-open index.html
-
-## Development
-# Using VS Code Live Server
-1. Install Live Server extension
-2. Right-click index.html
-3. Select "Open with Live Server"
-4. Visit http://localhost:5500
-
-## 📊 Performance Metrics
-
-| Metric | Value |
-| :--- | :--- |
-| **First Contentful Paint** | < 1.5s |
-| **Time to Interactive** | < 3s |
-| **Lighthouse Score** | 95+ |
-| **Bundle Size** | < 500KB |
-| **Browser Support** | Chrome 33+, Firefox 49+, Safari 7+, Edge 14+ |
-
----
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guidelines](docs/CONTRIBUTING.md) for details.
-
-### Development Process
-1. **Fork** the repository
-2. **Create a feature branch** (`git checkout -b feature/amazing-feature`)
-3. **Commit changes** (`git commit -m 'Add amazing feature'`)
-4. **Push to branch** (`git push origin feature/amazing-feature`)
-5. **Open a Pull Request**
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
----
-
-## 👨‍💻 Author
-
-**Rudranarayan Jena** - **GitHub:** [@liambrooks-lab](https://github.com/liambrooks-lab)  
-- **Project:** [LEXIO](https://github.com/liambrooks-lab/LEXIO)  
-- **Live Demo:** [View Live Demo](https://liambrooks-lab.github.io/LEXIO/)
-
----
-
-## 🙏 Acknowledgments
-
-- **Web Speech API Team** - For enabling browser-based speech synthesis
-- **PDF.js Contributors** - For robust PDF text extraction
-- **Google Fonts** - For the Inter font family
-- **All Contributors** - For testing, feedback, and support
-
----
-
-## 📞 Support
-
-- **Issues:** [Report a bug](https://github.com/liambrooks-lab/LEXIO/issues)
-- **Discussions:** [Start a discussion](https://github.com/liambrooks-lab/LEXIO/discussions)
-
----
-
-## ⭐ Show Your Support
-
-If you find this project useful, please consider giving it a **star** on GitHub! It helps more people discover the tool.
