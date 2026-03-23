@@ -82,3 +82,68 @@ LEXIO/
 │ └── deploy.yml # Auto-deployment workflow
 ├── FUNDING.yml # Sponsor configuration
 └── PULL_REQUEST_TEMPLATE.md
+
+##🚦 Quick Start
+Prerequisites
+A modern web browser (Chrome, Firefox, Safari, Edge)
+
+Local server (optional, recommended for PDF support)
+
+## Installation
+
+# Clone the repository
+git clone [https://github.com/liambrooks-lab/LEXIO.git](https://github.com/liambrooks-lab/LEXIO.git)
+
+# Navigate to project directory
+cd LEXIO
+
+# Open in browser
+open index.html
+
+Metric,Value
+First Contentful Paint,< 1.5s
+Time to Interactive,< 3s
+Lighthouse Score,95+
+Bundle Size,< 500KB
+Browser Support,"Chrome 33+, Firefox 49+, Safari 7+, Edge 14+"
+
+##🤝 Contributing
+We welcome contributions! Please see our Contributing Guidelines for details.
+
+Development Process
+Fork the repository
+
+Create a feature branch (git checkout -b feature/amazing-feature)
+
+Commit changes (git commit -m 'Add amazing feature')
+
+Push to branch (git push origin feature/amazing-feature)
+
+Open a Pull Request
+
+##📄 License
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+##👨‍💻 Author
+Rudranarayan Jena - GitHub: @liambrooks-lab
+
+Project: LEXIO
+
+Live Demo: View Live Demo
+
+##🙏 Acknowledgments
+Web Speech API Team - For enabling browser-based speech synthesis
+
+PDF.js Contributors - For robust PDF text extraction
+
+Google Fonts - For the Inter font family
+
+All Contributors - For testing, feedback, and support
+
+##📞 Support
+Issues: Report a bug
+
+Discussions: Start a discussion
+
+##⭐ Show Your Support
+If you find this project useful, please consider giving it a star on GitHub! It helps more people discover the tool.
