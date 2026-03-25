@@ -13,20 +13,20 @@
 
 | Feature | Description |
 |---------|-------------|
-| 🎯 **Real-time Word Highlighting** | Watch words light up as they're spoken |
-| 🎮 **Full Playback Control** | Play, Pause, Resume, Stop with intuitive controls |
-| ⚡ **Adjustable Speed** | Customize reading pace from 0.5x to 3x |
-| 🎤 **Voice Selection** | Choose from multiple male and female voices |
-| 📁 **File Upload** | Support for TXT and PDF documents (drag & drop) |
-| 👆 **Click-to-Read** | Click any word to start reading from that position |
-| 📱 **Responsive Design** | Seamless experience across desktop, tablet, and mobile |
-| 🔐 **Secure Authentication** | Simple login with name, email, and phone validation |
-| 📊 **Real-time Analytics** | Word count, character count, and estimated reading time |
-| 📋 **Activity Log** | Track all your actions in real-time |
+|  **Real-time Word Highlighting** | Watch words light up as they're spoken |
+|  **Full Playback Control** | Play, Pause, Resume, Stop with intuitive controls |
+|  **Adjustable Speed** | Customize reading pace from 0.5x to 3x |
+|  **Voice Selection** | Choose from multiple male and female voices |
+|  **File Upload** | Support for TXT and PDF documents (drag & drop) |
+|  **Click-to-Read** | Click any word to start reading from that position |
+|  **Responsive Design** | Seamless experience across desktop, tablet, and mobile |
+|  **Secure Authentication** | Simple login with name, email, and phone validation |
+|  **Real-time Analytics** | Word count, character count, and estimated reading time |
+|  **Activity Log** | Track all your actions in real-time |
 
 ---
 
-## 🚀 Live Demo
+##  Live Demo
 
 **[Launch LEXIO Studio →](https://liambrooks-lab.github.io/LEXIO/)**
 
