@@ -1,4 +1,4 @@
-# 🎤 LEXIO - Enterprise Text-to-Speech Studio
+#  LEXIO
 
 ![Version](https://img.shields.io/badge/version-1.0.0-8B5CF6)
 ![License](https://img.shields.io/badge/license-MIT-10B981)
