@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LEXIO - Premium TTS </title>
+    <title>LEXIO | Multilingual AI Reading Studio</title>
+    <link rel="icon" type="image/svg+xml" href="assets/logo.svg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
@@ -15,7 +16,7 @@
     <div id="loadingScreen" class="loading-screen">
         <div class="loading-core">
             <div class="loading-spinner"></div>
-            <div class="loading-text">LEXIO</div>
+            <div class="loading-text"><img src="assets/logo.svg" alt="LEXIO logo" class="loading-logo"><span>LEXIO</span></div>
             <p>Booting multilingual reading workspace...</p>
         </div>
     </div>
@@ -34,8 +35,13 @@
             </div>
             <div class="login-panel">
                 <div class="logo-block">
-                    <h2 class="logo-text">LEXIO<span class="cursor">_</span></h2>
-                    <p class="tagline">AI-assisted speech, document intelligence, and reading control</p>
+                    <div class="brand-lockup">
+                        <img src="assets/logo.svg" alt="LEXIO logo" class="brand-logo brand-logo-login">
+                        <div>
+                            <h2 class="logo-text">LEXIO<span class="cursor">_</span></h2>
+                            <p class="tagline">AI-assisted speech, document intelligence, and reading control</p>
+                        </div>
+                    </div>
                 </div>
                 <form id="loginForm" class="login-form">
                     <div class="avatar-upload-row">
@@ -74,6 +80,7 @@
     <div id="mainApp" class="main-app" style="display: none;">
         <nav class="navbar">
             <div class="nav-brand">
+                <img src="assets/logo.svg" alt="LEXIO logo" class="brand-logo brand-logo-nav">
                 <div>
                     <span class="eyebrow">LEXIO Workspace</span>
                     <h1 class="brand-text">Narration Studio <span class="badge badge-premium">PRO</span></h1>
@@ -539,3 +546,5 @@
     <script src="js/ai.js"></script>
 </body>
 </html>
+
+

@@ -152,6 +152,52 @@
         const lowerQuestion = (question || '').toLowerCase().trim();
         const shortcutHelp = app && typeof app.getShortcutHelp === 'function' ? app.getShortcutHelp() : [];
 
+        if (isGreeting(lowerQuestion)) {
+            return {
+                title: 'LEXIO Assistant',
+                items: [
+                    greetingReply(lowerQuestion),
+                    text.trim()
+                        ? 'Your document is loaded, so you can ask me for a summary, key topics, action cues, or the most important sections.'
+                        : 'You can ask me about imports, voices, shortcuts, reading modes, or how to get started.'
+                ]
+            };
+        }
+
+        if (containsAny(lowerQuestion, ['how are you', 'how r u', 'how are u'])) {
+            return {
+                title: 'LEXIO Assistant',
+                items: [
+                    'Running smoothly and ready to help.',
+                    text.trim() ? 'Your workspace is active, so feel free to ask about the current document.' : 'Load a document any time and I will switch into document-aware help.'
+                ]
+            };
+        }
+
+        if (containsAny(lowerQuestion, ['thank you', 'thanks', 'thx', 'ty'])) {
+            return {
+                title: 'LEXIO Assistant',
+                items: ['Happy to help.', 'If you want, I can help with summary, topics, playback setup, or shortcuts next.']
+            };
+        }
+
+        if (containsAny(lowerQuestion, ['bye', 'goodbye', 'see you', 'cya'])) {
+            return {
+                title: 'LEXIO Assistant',
+                items: ['See you soon.', 'Your workspace will be ready whenever you want to continue.']
+            };
+        }
+
+        if (containsAny(lowerQuestion, ['who are you', 'what are you'])) {
+            return {
+                title: 'LEXIO Assistant',
+                items: [
+                    'I am the built-in assistant for this reading workspace.',
+                    'I help with document understanding, voice setup, playback guidance, shortcuts, and quick answers about the current file.'
+                ]
+            };
+        }
+
         if (containsAny(lowerQuestion, ['shortcut', 'shortcuts', 'keyboard', 'hotkey'])) {
             return {
                 title: 'Keyboard shortcuts',
@@ -517,6 +563,32 @@
         });
     }
 
+    function isGreeting(text) {
+        return /^(hi|hello|hey|heyy|hii|yo|hola|namaste|salam|good morning|good afternoon|good evening)\b/.test(text);
+    }
+
+    function greetingReply(text) {
+        if (text.indexOf('good morning') !== -1) {
+            return 'Good morning. Ready when you are.';
+        }
+        if (text.indexOf('good afternoon') !== -1) {
+            return 'Good afternoon. I am ready to help.';
+        }
+        if (text.indexOf('good evening') !== -1) {
+            return 'Good evening. Let us keep the workflow moving.';
+        }
+        if (text.indexOf('namaste') !== -1) {
+            return 'Namaste. I am here to help with your reading workspace.';
+        }
+        if (text.indexOf('salam') !== -1) {
+            return 'Salam. I am ready to help.';
+        }
+        if (text.indexOf('hola') !== -1) {
+            return 'Hola. I am ready when you are.';
+        }
+        return 'Hello. How can I help you today?';
+    }
+
     function labelLanguage(code) {
         const labels = window.lexioLanguageLabels || {};
         return labels[code] || labels.en || 'English';
@@ -531,4 +603,5 @@
         return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 })();
+
 
