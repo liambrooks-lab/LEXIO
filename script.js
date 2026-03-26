@@ -11,6 +11,8 @@
         es: 'Spanish'
     };
 
+    const NOTES_KEY = 'lexio_workspace_notes';
+
     const state = {
         rawText: '',
         cleanedText: '',
@@ -25,7 +27,8 @@
         wordElements: [],
         activeWordIndex: -1,
         detectedLanguage: 'en',
-        focusMode: false
+        focusMode: false,
+        activeView: 'dashboardView'
     };
 
     const els = {};
@@ -37,10 +40,10 @@
         const statusEl = document.getElementById('status');
         const safeType = type || 'info';
         const palette = {
-            success: '#4ade80',
-            error: '#fb7185',
-            warning: '#fbbf24',
-            info: '#38bdf8'
+            success: '#0f9d58',
+            error: '#d93025',
+            warning: '#f59e0b',
+            info: '#2563eb'
         };
 
         if (!statusEl) {
@@ -52,7 +55,7 @@
         statusEl.style.display = 'inline-flex';
         statusEl.style.borderColor = palette[safeType] || palette.info;
         statusEl.style.color = palette[safeType] || palette.info;
-        statusEl.style.background = 'rgba(9, 14, 32, 0.92)';
+        statusEl.style.background = 'rgba(255, 255, 255, 0.94)';
 
         window.clearTimeout(window.showStatus.hideTimer);
         if (safeType !== 'error') {
@@ -69,10 +72,12 @@
     function init() {
         cacheElements();
         bindEvents();
+        restoreNotes();
         hideLoadingScreen();
         syncSliders();
         renderEmptyState();
         updateAnalytics();
+
         window.lexioApp = {
             loadDocument: loadDocument,
             getState: function() { return state; },
@@ -85,6 +90,8 @@
             refreshAfterTextChange: refreshFromSourceEditor,
             getWordElement: function(index) { return state.wordElements[index] || null; }
         };
+
+        activateView('dashboardView');
         refreshFromSourceEditor();
     }
 
@@ -94,10 +101,16 @@
             'timeEstimate', 'sectionCount', 'documentSummary', 'detectedLanguage', 'qualityHint',
             'activeDocumentType', 'fileBadge', 'voiceCoverage', 'progressBar', 'progressLabel',
             'playbackLabel', 'languageSelect', 'smartCleanup', 'smartChunking', 'toggleFocusModeBtn',
-            'speedRange', 'speedValue', 'pitchRange', 'pitchValue', 'demoBtn', 'clearBtn'
+            'speedRange', 'speedValue', 'pitchRange', 'pitchValue', 'demoBtn', 'clearBtn',
+            'openManualBtn', 'openNotesBtn', 'manualPanel', 'notesPanel', 'panelBackdrop',
+            'notesInput', 'saveNotesBtn', 'notesStatus', 'qualityPulse'
         ].forEach(function(id) {
             els[id] = document.getElementById(id);
         });
+
+        els.workspaceTabs = Array.prototype.slice.call(document.querySelectorAll('.workspace-tab'));
+        els.workspaceViews = Array.prototype.slice.call(document.querySelectorAll('.workspace-view'));
+        els.panelCloseButtons = Array.prototype.slice.call(document.querySelectorAll('[data-close-panel]'));
     }
 
     function bindEvents() {
@@ -124,7 +137,10 @@
         }
 
         if (els.demoBtn) {
-            els.demoBtn.addEventListener('click', loadDemoDocument);
+            els.demoBtn.addEventListener('click', function() {
+                activateView('readerView');
+                loadDemoDocument();
+            });
         }
 
         if (els.toggleFocusModeBtn) {
@@ -150,6 +166,44 @@
             });
         }
 
+        els.workspaceTabs.forEach(function(tab) {
+            tab.addEventListener('click', function() {
+                activateView(tab.dataset.view);
+            });
+        });
+
+        if (els.openManualBtn) {
+            els.openManualBtn.addEventListener('click', function() {
+                openPanel('manualPanel');
+            });
+        }
+
+        if (els.openNotesBtn) {
+            els.openNotesBtn.addEventListener('click', function() {
+                openPanel('notesPanel');
+            });
+        }
+
+        if (els.panelBackdrop) {
+            els.panelBackdrop.addEventListener('click', closePanels);
+        }
+
+        els.panelCloseButtons.forEach(function(button) {
+            button.addEventListener('click', closePanels);
+        });
+
+        if (els.saveNotesBtn) {
+            els.saveNotesBtn.addEventListener('click', saveNotes);
+        }
+
+        if (els.notesInput) {
+            els.notesInput.addEventListener('input', function() {
+                if (els.notesStatus) {
+                    els.notesStatus.textContent = 'Unsaved changes';
+                }
+            });
+        }
+
         if (new URLSearchParams(window.location.search).has('dev')) {
             const loginPage = document.getElementById('loginPage');
             const mainApp = document.getElementById('mainApp');
@@ -160,6 +214,64 @@
                 mainApp.style.display = 'flex';
             }
         }
+    }
+
+    function activateView(viewId) {
+        state.activeView = viewId;
+        els.workspaceTabs.forEach(function(tab) {
+            tab.classList.toggle('active', tab.dataset.view === viewId);
+        });
+        els.workspaceViews.forEach(function(view) {
+            view.classList.toggle('active', view.id === viewId);
+        });
+    }
+
+    function openPanel(panelId) {
+        closePanels();
+        const panel = document.getElementById(panelId);
+        if (!panel || !els.panelBackdrop) {
+            return;
+        }
+        panel.classList.add('open');
+        els.panelBackdrop.classList.add('visible');
+        document.body.classList.add('panel-open');
+    }
+
+    function closePanels() {
+        ['manualPanel', 'notesPanel'].forEach(function(id) {
+            const panel = document.getElementById(id);
+            if (panel) {
+                panel.classList.remove('open');
+            }
+        });
+        if (els.panelBackdrop) {
+            els.panelBackdrop.classList.remove('visible');
+        }
+        document.body.classList.remove('panel-open');
+    }
+
+    function restoreNotes() {
+        if (!els.notesInput) {
+            return;
+        }
+        const saved = localStorage.getItem(NOTES_KEY);
+        if (saved) {
+            els.notesInput.value = saved;
+        }
+        if (els.notesStatus) {
+            els.notesStatus.textContent = 'Saved locally on this device';
+        }
+    }
+
+    function saveNotes() {
+        if (!els.notesInput) {
+            return;
+        }
+        localStorage.setItem(NOTES_KEY, els.notesInput.value || '');
+        if (els.notesStatus) {
+            els.notesStatus.textContent = 'Saved locally on this device';
+        }
+        window.showStatus('Notes saved', 'success');
     }
 
     function hideLoadingScreen() {
@@ -193,9 +305,9 @@
 
     function loadDemoDocument() {
         const demoText = [
-            'Hello and welcome to LEXIO. This studio reads real documents in a smoother, more natural way.',
-            'You can switch between English, Hindi, Arabic, Italian, and Spanish, filter by accent, and choose a voice persona when your browser provides matching voices.',
-            'Import a PDF, DOCX, PPTX, TXT, Markdown, CSV, JSON, or RTF file. LEXIO will rebuild the document into a reading surface and highlight the words as they are spoken.'
+            'LEXIO is an enterprise reading workspace that transforms real documents into a multilingual narration experience.',
+            'The platform supports English, Hindi, Arabic, Italian, and Spanish narration, while matching available browser voices to accent and persona preferences.',
+            'It imports office files, builds a structured document viewer, and keeps playback synchronized with the highlighted content.'
         ].join('\n\n');
 
         loadDocument({
@@ -263,10 +375,8 @@
             window.speechModule.handleDocumentUpdated();
         }
 
-        if (!settings.silent) {
-            if (cleanedText.trim()) {
-                window.showStatus('Document ready for narration', 'success');
-            }
+        if (!settings.silent && cleanedText.trim()) {
+            window.showStatus('Document ready for narration', 'success');
         }
     }
 
@@ -284,7 +394,7 @@
             .replace(/[ \t]+\n/g, '\n')
             .replace(/\n{3,}/g, '\n\n')
             .replace(/[ \t]{2,}/g, ' ')
-            .replace(/-\n(?=[a-z])/g, '')
+            .replace(/-\n(?=[a-zA-Z])/g, '')
             .replace(/([a-z])\n([a-z])/gi, '$1 $2')
             .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '');
 
@@ -378,6 +488,7 @@
             element.addEventListener('click', function() {
                 const wordIndex = Number(element.dataset.wordIndex);
                 if (window.speechModule && typeof window.speechModule.startReading === 'function') {
+                    activateView('readerView');
                     window.speechModule.startReading(wordIndex);
                 }
             });
@@ -413,7 +524,7 @@
             '<div class="empty-state">',
             '<i class="fas fa-file-lines"></i>',
             '<h4>Import a file or paste content</h4>',
-            '<p>LEXIO will render your pages, slides, or sections here and keep the highlights synced while speaking.</p>',
+            '<p>LEXIO will render your pages, slides, sheets, or sections here and keep the highlights synced while speaking.</p>',
             '</div>'
         ].join('');
         state.wordElements = [];
@@ -445,6 +556,9 @@
         }
         if (els.qualityHint) {
             els.qualityHint.textContent = buildQualityHint(wordCount, state.detectedLanguage, state.documentMeta.kind);
+        }
+        if (els.qualityPulse) {
+            els.qualityPulse.textContent = wordCount > 800 ? 'Deep' : wordCount > 120 ? 'Balanced' : 'Quick';
         }
     }
 
@@ -594,11 +708,18 @@
             csv: 'Spreadsheet export',
             json: 'JSON document',
             rtf: 'Rich text document',
+            html: 'HTML document',
+            htm: 'HTML document',
+            xml: 'XML document',
             pdf: 'PDF document',
             docx: 'Word document',
             doc: 'Legacy Word document',
             pptx: 'PowerPoint presentation',
-            ppt: 'Legacy PowerPoint presentation'
+            ppt: 'Legacy PowerPoint presentation',
+            xlsx: 'Spreadsheet workbook',
+            odt: 'OpenDocument text',
+            odp: 'OpenDocument presentation',
+            epub: 'EPUB document'
         };
         return map[kind] || 'Imported document';
     }
@@ -616,7 +737,7 @@
     }
 
     function escapeHtml(value) {
-        return value
+        return String(value)
             .replace(/&/g, '&amp;')
             .replace(/</g, '&lt;')
             .replace(/>/g, '&gt;')

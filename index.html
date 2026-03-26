@@ -70,310 +70,125 @@
                     <h1 class="brand-text">Narration Studio <span class="badge badge-premium">PRO</span></h1>
                 </div>
             </div>
-            <div class="nav-user">
-                <div class="user-info">
-                    <span class="user-greeting">Welcome, <span id="userName">User</span></span>
-                    <span class="user-role">Document speech operator</span>
+            <div class="nav-actions">
+                <button id="openManualBtn" class="utility-btn" type="button"><i class="fas fa-book-open"></i> User Manual</button>
+                <button id="openNotesBtn" class="utility-btn" type="button"><i class="fas fa-note-sticky"></i> Notes</button>
+                <div class="nav-user">
+                    <div class="user-info">
+                        <span class="user-greeting">Welcome, <span id="userName">User</span></span>
+                        <span class="user-role">Document speech operator</span>
+                    </div>
+                    <div id="userAvatar" class="user-avatar"><span id="userInitials">U</span></div>
+                    <button id="logoutBtn" class="logout-btn" title="Logout"><i class="fas fa-sign-out-alt"></i></button>
                 </div>
-                <div id="userAvatar" class="user-avatar"><span id="userInitials">U</span></div>
-                <button id="logoutBtn" class="logout-btn" title="Logout"><i class="fas fa-sign-out-alt"></i></button>
             </div>
         </nav>
 
-        <main class="workspace-shell">
-            <section class="hero-panel card">
-                <div>
-                    <span class="eyebrow">AI Reading Assist</span>
-                    <h2>Natural multilingual narration for real documents.</h2>
-                    <p>LEXIO reads by phrase instead of one word at a time, filters voices by language, accent, and persona, and keeps the live document viewer in sync while speaking.</p>
-                </div>
-                <div class="hero-metrics">
-                    <div class="metric-tile">
-                        <span class="metric-label">Detected language</span>
-                        <strong id="detectedLanguage">English</strong>
-                    </div>
-                    <div class="metric-tile">
-                        <span class="metric-label">Voice readiness</span>
-                        <strong id="voiceCoverage">Checking</strong>
-                    </div>
-                    <div class="metric-tile">
-                        <span class="metric-label">Import profile</span>
-                        <strong id="activeDocumentType">Manual text</strong>
-                    </div>
-                    <div class="metric-tile">
-                        <span class="metric-label">AI confidence</span>
-                        <strong id="aiConfidence">Standby</strong>
-                    </div>
-                </div>
-            </section>
+        <section class="workspace-toolbar">
+            <div class="workspace-tabs" role="tablist" aria-label="Workspace Views">
+                <button class="workspace-tab active" type="button" data-view="dashboardView"><i class="fas fa-table-cells-large"></i> Dashboard</button>
+                <button class="workspace-tab" type="button" data-view="readerView"><i class="fas fa-file-waveform"></i> Reader</button>
+                <button class="workspace-tab" type="button" data-view="analysisView"><i class="fas fa-brain"></i> AI Studio</button>
+            </div>
+            <div class="workspace-toolbar-meta">
+                <span class="meta-chip">Profile: <strong id="activeDocumentType">Manual text</strong></span>
+                <span class="meta-chip">Voice Pack: <strong id="voiceCoverage">Checking</strong></span>
+                <span class="meta-chip">AI Confidence: <strong id="aiConfidence">Standby</strong></span>
+            </div>
+        </section>
 
-            <section class="workspace-grid">
-                <div class="studio-column">
-                    <article class="card studio-card">
-                        <div class="section-header section-header-spread">
+        <main class="workspace-shell workspace-shell-tabs">
+            <section id="dashboardView" class="workspace-view active">
+                <section class="hero-panel card">
+                    <div>
+                        <span class="eyebrow">AI Reading Assist</span>
+                        <h2>Natural multilingual narration for real documents.</h2>
+                        <p>LEXIO reads by phrase instead of one word at a time, filters voices by language, accent, and persona, and keeps the live document viewer in sync while speaking.</p>
+                    </div>
+                    <div class="hero-metrics">
+                        <div class="metric-tile">
+                            <span class="metric-label">Detected language</span>
+                            <strong id="detectedLanguage">English</strong>
+                        </div>
+                        <div class="metric-tile">
+                            <span class="metric-label">Read time</span>
+                            <strong id="timeEstimate">0s</strong>
+                        </div>
+                        <div class="metric-tile">
+                            <span class="metric-label">Sections</span>
+                            <strong id="sectionCount">0</strong>
+                        </div>
+                        <div class="metric-tile">
+                            <span class="metric-label">Words</span>
+                            <strong id="wordCount">0</strong>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="dashboard-grid-plus">
+                    <article class="card dashboard-card command-card">
+                        <div class="section-header">
                             <div>
-                                <span class="eyebrow">Source Studio</span>
-                                <h3>Bring in text or import a document</h3>
-                            </div>
-                            <div class="file-actions">
-                                <span id="fileBadge" class="badge badge-info">No file loaded</span>
-                                <button id="uploadBtn" class="btn-icon" title="Import document"><i class="fas fa-upload"></i></button>
-                                <button id="demoBtn" class="btn-icon" title="Load sample"><i class="fas fa-wand-magic-sparkles"></i></button>
-                                <button id="clearBtn" class="btn-icon" title="Clear content"><i class="fas fa-trash"></i></button>
+                                <span class="eyebrow">AI Command Center</span>
+                                <h3>Generate smart reading outputs</h3>
                             </div>
                         </div>
-                        <div class="editor-grid">
-                            <div class="editor-pane">
-                                <label for="inputText" class="field-title">Editable source</label>
-                                <textarea id="inputText" class="form-input source-input" placeholder="Paste text here or import PDF, DOCX, DOC, PPTX, PPT, XLSX, EPUB, TXT, MD, CSV, JSON, RTF, ODT, ODP, HTML, XML and supported office files..."></textarea>
-                                <div class="editor-hints">
-                                    <span id="charCounter" class="badge badge-primary">0 chars</span>
-                                    <span id="wordCountChip" class="badge badge-success">0 words</span>
-                                    <span class="hint-text">Drag and drop documents onto this card.</span>
-                                </div>
-                            </div>
-                            <div class="viewer-pane">
-                                <div class="viewer-header">
-                                    <div>
-                                        <span class="field-title">Document viewer</span>
-                                        <p id="documentSummary" class="viewer-subtitle">Your document structure and live highlights appear here.</p>
-                                    </div>
-                                    <div class="viewer-actions">
-                                        <button id="toggleFocusModeBtn" class="btn btn-secondary btn-sm" type="button"><i class="fas fa-expand"></i> Focus mode</button>
-                                    </div>
-                                </div>
-                                <div id="documentSurface" class="document-surface" aria-live="polite">
-                                    <div class="empty-state">
-                                        <i class="fas fa-file-lines"></i>
-                                        <h4>Import a file or paste content</h4>
-                                        <p>LEXIO will render your pages, slides, sheets, or sections here and track the spoken text in real time.</p>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="command-actions">
+                            <button id="briefModeBtn" class="command-chip" type="button"><i class="fas fa-briefcase"></i> Executive brief</button>
+                            <button id="studyModeBtn" class="command-chip" type="button"><i class="fas fa-user-graduate"></i> Study notes</button>
+                            <button id="presentationModeBtn" class="command-chip" type="button"><i class="fas fa-person-chalkboard"></i> Presentation flow</button>
+                            <button id="qaModeBtn" class="command-chip" type="button"><i class="fas fa-circle-question"></i> Q&A prompts</button>
+                        </div>
+                        <div id="aiResponse" class="ai-response">
+                            <p>Ask the command center to generate a brief, study pack, presentation flow, or review prompts from your current document.</p>
                         </div>
                     </article>
 
-                    <section class="analysis-grid">
-                        <article class="card analysis-card command-card">
-                            <div class="section-header">
-                                <div>
-                                    <span class="eyebrow">AI Command Center</span>
-                                    <h3>Generate smart reading outputs</h3>
-                                </div>
-                            </div>
-                            <div class="command-actions">
-                                <button id="briefModeBtn" class="command-chip" type="button"><i class="fas fa-briefcase"></i> Executive brief</button>
-                                <button id="studyModeBtn" class="command-chip" type="button"><i class="fas fa-user-graduate"></i> Study notes</button>
-                                <button id="presentationModeBtn" class="command-chip" type="button"><i class="fas fa-person-chalkboard"></i> Presentation flow</button>
-                                <button id="qaModeBtn" class="command-chip" type="button"><i class="fas fa-circle-question"></i> Q&A prompts</button>
-                            </div>
-                            <div id="aiResponse" class="ai-response">
-                                <p>Ask the command center to generate a brief, study pack, presentation flow, or review prompts from your current document.</p>
-                            </div>
-                        </article>
-
-                        <article class="card analysis-card">
-                            <div class="section-header">
-                                <div>
-                                    <span class="eyebrow">AI Summary</span>
-                                    <h3>Executive summary</h3>
-                                </div>
-                            </div>
-                            <div id="aiSummary" class="content-list empty-copy">Summary appears when your document is ready.</div>
-                        </article>
-
-                        <article class="card analysis-card">
-                            <div class="section-header">
-                                <div>
-                                    <span class="eyebrow">Key Topics</span>
-                                    <h3>Theme extraction</h3>
-                                </div>
-                            </div>
-                            <div id="aiTopics" class="tag-cloud empty-copy">Key topics will appear here.</div>
-                        </article>
-
-                        <article class="card analysis-card">
-                            <div class="section-header">
-                                <div>
-                                    <span class="eyebrow">Glossary</span>
-                                    <h3>Entities and terms</h3>
-                                </div>
-                            </div>
-                            <div id="aiGlossary" class="content-list empty-copy">Entities and terminology will appear here.</div>
-                        </article>
-
-                        <article class="card analysis-card">
-                            <div class="section-header">
-                                <div>
-                                    <span class="eyebrow">Outline</span>
-                                    <h3>Document structure</h3>
-                                </div>
-                            </div>
-                            <div id="outlinePanel" class="outline-panel empty-copy">The outline becomes interactive once the document is parsed.</div>
-                        </article>
-
-                        <article class="card analysis-card">
-                            <div class="section-header">
-                                <div>
-                                    <span class="eyebrow">Action Cues</span>
-                                    <h3>Important lines</h3>
-                                </div>
-                            </div>
-                            <div id="aiActions" class="content-list empty-copy">Important action lines and recommendations will appear here.</div>
-                        </article>
-                    </section>
-                </div>
-
-                <aside class="controls-column">
-                    <article class="card control-card">
+                    <article class="card dashboard-card">
                         <div class="section-header">
                             <div>
-                                <span class="eyebrow">Voice Lab</span>
-                                <h3>Language, accent, and persona</h3>
+                                <span class="eyebrow">AI Summary</span>
+                                <h3>Executive summary</h3>
                             </div>
                         </div>
-                        <div class="control-stack">
-                            <div class="setting-item">
-                                <label for="languageSelect">Narration language</label>
-                                <select id="languageSelect" class="form-input">
-                                    <option value="auto">Auto-detect from document</option>
-                                    <option value="en">English</option>
-                                    <option value="hi">Hindi</option>
-                                    <option value="ar">Arabic</option>
-                                    <option value="it">Italian</option>
-                                    <option value="es">Spanish</option>
-                                </select>
-                            </div>
-                            <div class="setting-grid">
-                                <div class="setting-item">
-                                    <label for="accentSelect">Accent</label>
-                                    <select id="accentSelect" class="form-input">
-                                        <option value="auto">Best available accent</option>
-                                    </select>
-                                </div>
-                                <div class="setting-item">
-                                    <label for="voicePersonaSelect">Voice persona</label>
-                                    <select id="voicePersonaSelect" class="form-input">
-                                        <option value="any">Any</option>
-                                        <option value="female">Female</option>
-                                        <option value="male">Male</option>
-                                        <option value="neutral">Neutral</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="setting-item">
-                                <label for="voiceSelect">Voice engine</label>
-                                <select id="voiceSelect" class="form-input">
-                                    <option value="">Loading browser voices...</option>
-                                </select>
-                                <p id="voiceMeta" class="form-help">LEXIO filters available system voices by your language, accent, and persona choices.</p>
-                            </div>
-                        </div>
+                        <div id="aiSummary" class="content-list empty-copy">Summary appears when your document is ready.</div>
                     </article>
 
-                    <article class="card control-card">
+                    <article class="card dashboard-card">
                         <div class="section-header">
                             <div>
-                                <span class="eyebrow">AI Narration</span>
-                                <h3>Reading behavior</h3>
+                                <span class="eyebrow">Key Topics</span>
+                                <h3>Theme extraction</h3>
                             </div>
                         </div>
-                        <div class="control-stack">
-                            <div class="setting-item">
-                                <label for="readingModeSelect">Reading mode</label>
-                                <select id="readingModeSelect" class="form-input">
-                                    <option value="adaptive">Adaptive mode</option>
-                                    <option value="executive">Executive briefing</option>
-                                    <option value="study">Study coach</option>
-                                    <option value="presentation">Presentation mode</option>
-                                    <option value="accessibility">Accessibility mode</option>
-                                </select>
-                            </div>
-                            <label class="toggle-row">
-                                <span>
-                                    <strong>Smart cleanup</strong>
-                                    <small>Fix OCR noise, repeated spaces, and broken line wrapping.</small>
-                                </span>
-                                <input id="smartCleanup" type="checkbox" checked>
-                            </label>
-                            <label class="toggle-row">
-                                <span>
-                                    <strong>Natural chunking</strong>
-                                    <small>Read by sentence and clause for human pacing.</small>
-                                </span>
-                                <input id="smartChunking" type="checkbox" checked>
-                            </label>
-                            <label class="toggle-row">
-                                <span>
-                                    <strong>Follow document focus</strong>
-                                    <small>Keep the highlighted text centered while reading.</small>
-                                </span>
-                                <input id="autoScrollHighlight" type="checkbox" checked>
-                            </label>
-                            <div class="slider-group">
-                                <div class="slider-label">
-                                    <span>Speed</span>
-                                    <span id="speedValue" class="val-badge">1.00x</span>
-                                </div>
-                                <input type="range" id="speedRange" min="0.75" max="1.5" step="0.05" value="1">
-                            </div>
-                            <div class="slider-group">
-                                <div class="slider-label">
-                                    <span>Pitch</span>
-                                    <span id="pitchValue" class="val-badge">1.0</span>
-                                </div>
-                                <input type="range" id="pitchRange" min="0.7" max="1.3" step="0.05" value="1">
-                            </div>
-                        </div>
+                        <div id="aiTopics" class="tag-cloud empty-copy">Key topics will appear here.</div>
                     </article>
 
-                    <article class="card control-card">
+                    <article class="card dashboard-card">
                         <div class="section-header">
                             <div>
-                                <span class="eyebrow">Playback</span>
-                                <h3>Document reader controls</h3>
+                                <span class="eyebrow">Action Cues</span>
+                                <h3>Priority guidance</h3>
                             </div>
                         </div>
-                        <div class="button-grid">
-                            <button id="startBtn" class="btn btn-primary" type="button"><i class="fas fa-play"></i> Start</button>
-                            <button id="pauseBtn" class="btn btn-secondary" type="button" disabled><i class="fas fa-pause"></i> Pause</button>
-                            <button id="resumeBtn" class="btn btn-secondary" type="button" disabled><i class="fas fa-play-circle"></i> Resume</button>
-                            <button id="stopBtn" class="btn btn-danger" type="button" disabled><i class="fas fa-stop"></i> Stop</button>
-                        </div>
-                        <div class="playback-strip">
-                            <div class="playback-meta">
-                                <span id="playbackLabel">Idle</span>
-                                <span id="progressLabel">0%</span>
-                            </div>
-                            <div class="progress-container">
-                                <div id="progressBar" class="progress-bar" style="width: 0%;"></div>
-                            </div>
-                        </div>
+                        <div id="aiActions" class="content-list empty-copy">Important action lines and recommendations will appear here.</div>
                     </article>
 
-                    <article class="card control-card insights-card">
+                    <article class="card dashboard-card compact-insights">
                         <div class="section-header">
                             <div>
-                                <span class="eyebrow">Document Intelligence</span>
-                                <h3>Live insights</h3>
+                                <span class="eyebrow">Workspace Pulse</span>
+                                <h3>Live stats</h3>
                             </div>
                         </div>
                         <div class="insight-grid">
-                            <div class="insight-tile">
-                                <span class="insight-label">Words</span>
-                                <strong id="wordCount">0</strong>
-                            </div>
                             <div class="insight-tile">
                                 <span class="insight-label">Characters</span>
                                 <strong id="charCount">0</strong>
                             </div>
                             <div class="insight-tile">
-                                <span class="insight-label">Read time</span>
-                                <strong id="timeEstimate">0s</strong>
-                            </div>
-                            <div class="insight-tile">
-                                <span class="insight-label">Sections</span>
-                                <strong id="sectionCount">0</strong>
+                                <span class="insight-label">Quality</span>
+                                <strong id="qualityPulse">Ready</strong>
                             </div>
                         </div>
                         <div class="insight-note">
@@ -381,7 +196,241 @@
                             <span id="qualityHint">LEXIO will adapt its recommendations once content is available.</span>
                         </div>
                     </article>
-                </aside>
+                </section>
+            </section>
+
+            <section id="readerView" class="workspace-view">
+                <section class="reader-layout">
+                    <div class="studio-column">
+                        <article class="card studio-card">
+                            <div class="section-header section-header-spread">
+                                <div>
+                                    <span class="eyebrow">Source Studio</span>
+                                    <h3>Bring in text or import a document</h3>
+                                </div>
+                                <div class="file-actions">
+                                    <span id="fileBadge" class="badge badge-info">No file loaded</span>
+                                    <button id="uploadBtn" class="btn-icon" title="Import document"><i class="fas fa-upload"></i></button>
+                                    <button id="demoBtn" class="btn-icon" title="Load sample"><i class="fas fa-wand-magic-sparkles"></i></button>
+                                    <button id="clearBtn" class="btn-icon" title="Clear content"><i class="fas fa-trash"></i></button>
+                                </div>
+                            </div>
+                            <div class="editor-grid">
+                                <div class="editor-pane">
+                                    <label for="inputText" class="field-title">Editable source</label>
+                                    <textarea id="inputText" class="form-input source-input" placeholder="Paste text here or import PDF, DOCX, DOC, PPTX, PPT, XLSX, EPUB, TXT, MD, CSV, JSON, RTF, ODT, ODP, HTML, XML and supported office files..."></textarea>
+                                    <div class="editor-hints">
+                                        <span id="charCounter" class="badge badge-primary">0 chars</span>
+                                        <span id="wordCountChip" class="badge badge-success">0 words</span>
+                                        <span class="hint-text">Drag and drop documents onto this card.</span>
+                                    </div>
+                                </div>
+                                <div class="viewer-pane">
+                                    <div class="viewer-header">
+                                        <div>
+                                            <span class="field-title">Document viewer</span>
+                                            <p id="documentSummary" class="viewer-subtitle">Your document structure and live highlights appear here.</p>
+                                        </div>
+                                        <div class="viewer-actions">
+                                            <button id="toggleFocusModeBtn" class="btn btn-secondary btn-sm" type="button"><i class="fas fa-expand"></i> Focus mode</button>
+                                        </div>
+                                    </div>
+                                    <div id="documentSurface" class="document-surface" aria-live="polite">
+                                        <div class="empty-state">
+                                            <i class="fas fa-file-lines"></i>
+                                            <h4>Import a file or paste content</h4>
+                                            <p>LEXIO will render your pages, slides, sheets, or sections here and track the spoken text in real time.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+
+                    <aside class="controls-column">
+                        <article class="card control-card">
+                            <div class="section-header">
+                                <div>
+                                    <span class="eyebrow">Voice Lab</span>
+                                    <h3>Language, accent, and persona</h3>
+                                </div>
+                            </div>
+                            <div class="control-stack">
+                                <div class="setting-item">
+                                    <label for="languageSelect">Narration language</label>
+                                    <select id="languageSelect" class="form-input">
+                                        <option value="auto">Auto-detect from document</option>
+                                        <option value="en">English</option>
+                                        <option value="hi">Hindi</option>
+                                        <option value="ar">Arabic</option>
+                                        <option value="it">Italian</option>
+                                        <option value="es">Spanish</option>
+                                    </select>
+                                </div>
+                                <div class="setting-grid">
+                                    <div class="setting-item">
+                                        <label for="accentSelect">Accent</label>
+                                        <select id="accentSelect" class="form-input">
+                                            <option value="auto">Best available accent</option>
+                                        </select>
+                                    </div>
+                                    <div class="setting-item">
+                                        <label for="voicePersonaSelect">Voice persona</label>
+                                        <select id="voicePersonaSelect" class="form-input">
+                                            <option value="any">Any</option>
+                                            <option value="female">Female</option>
+                                            <option value="male">Male</option>
+                                            <option value="neutral">Neutral</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="setting-item">
+                                    <label for="voiceSelect">Voice engine</label>
+                                    <select id="voiceSelect" class="form-input">
+                                        <option value="">Loading browser voices...</option>
+                                    </select>
+                                    <p id="voiceMeta" class="form-help">LEXIO filters available system voices by your language, accent, and persona choices.</p>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="card control-card">
+                            <div class="section-header">
+                                <div>
+                                    <span class="eyebrow">AI Narration</span>
+                                    <h3>Reading behavior</h3>
+                                </div>
+                            </div>
+                            <div class="control-stack">
+                                <div class="setting-item">
+                                    <label for="readingModeSelect">Reading mode</label>
+                                    <select id="readingModeSelect" class="form-input">
+                                        <option value="adaptive">Adaptive mode</option>
+                                        <option value="executive">Executive briefing</option>
+                                        <option value="study">Study coach</option>
+                                        <option value="presentation">Presentation mode</option>
+                                        <option value="accessibility">Accessibility mode</option>
+                                    </select>
+                                </div>
+                                <label class="toggle-row">
+                                    <span>
+                                        <strong>Smart cleanup</strong>
+                                        <small>Fix OCR noise, repeated spaces, and broken line wrapping.</small>
+                                    </span>
+                                    <input id="smartCleanup" type="checkbox" checked>
+                                </label>
+                                <label class="toggle-row">
+                                    <span>
+                                        <strong>Natural chunking</strong>
+                                        <small>Read by sentence and clause for human pacing.</small>
+                                    </span>
+                                    <input id="smartChunking" type="checkbox" checked>
+                                </label>
+                                <label class="toggle-row">
+                                    <span>
+                                        <strong>Follow document focus</strong>
+                                        <small>Keep the highlighted text centered while reading.</small>
+                                    </span>
+                                    <input id="autoScrollHighlight" type="checkbox" checked>
+                                </label>
+                                <div class="slider-group">
+                                    <div class="slider-label">
+                                        <span>Speed</span>
+                                        <span id="speedValue" class="val-badge">1.00x</span>
+                                    </div>
+                                    <input type="range" id="speedRange" min="0.75" max="1.5" step="0.05" value="1">
+                                </div>
+                                <div class="slider-group">
+                                    <div class="slider-label">
+                                        <span>Pitch</span>
+                                        <span id="pitchValue" class="val-badge">1.0</span>
+                                    </div>
+                                    <input type="range" id="pitchRange" min="0.7" max="1.3" step="0.05" value="1">
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="card control-card">
+                            <div class="section-header">
+                                <div>
+                                    <span class="eyebrow">Playback</span>
+                                    <h3>Document reader controls</h3>
+                                </div>
+                            </div>
+                            <div class="button-grid">
+                                <button id="startBtn" class="btn btn-primary" type="button"><i class="fas fa-play"></i> Start</button>
+                                <button id="pauseBtn" class="btn btn-secondary" type="button" disabled><i class="fas fa-pause"></i> Pause</button>
+                                <button id="resumeBtn" class="btn btn-secondary" type="button" disabled><i class="fas fa-play-circle"></i> Resume</button>
+                                <button id="stopBtn" class="btn btn-danger" type="button" disabled><i class="fas fa-stop"></i> Stop</button>
+                            </div>
+                            <div class="playback-strip">
+                                <div class="playback-meta">
+                                    <span id="playbackLabel">Idle</span>
+                                    <span id="progressLabel">0%</span>
+                                </div>
+                                <div class="progress-container">
+                                    <div id="progressBar" class="progress-bar" style="width: 0%;"></div>
+                                </div>
+                            </div>
+                        </article>
+                    </aside>
+                </section>
+            </section>
+
+            <section id="analysisView" class="workspace-view">
+                <section class="analysis-grid analysis-grid-wide">
+                    <article class="card analysis-card">
+                        <div class="section-header">
+                            <div>
+                                <span class="eyebrow">Glossary</span>
+                                <h3>Entities and terms</h3>
+                            </div>
+                        </div>
+                        <div id="aiGlossary" class="content-list empty-copy">Entities and terminology will appear here.</div>
+                    </article>
+
+                    <article class="card analysis-card">
+                        <div class="section-header">
+                            <div>
+                                <span class="eyebrow">Outline</span>
+                                <h3>Document structure</h3>
+                            </div>
+                        </div>
+                        <div id="outlinePanel" class="outline-panel empty-copy">The outline becomes interactive once the document is parsed.</div>
+                    </article>
+
+                    <article class="card analysis-card">
+                        <div class="section-header">
+                            <div>
+                                <span class="eyebrow">Workspace QA</span>
+                                <h3>Review prompts</h3>
+                            </div>
+                        </div>
+                        <div class="content-list">
+                            <ul>
+                                <li>Use this page to inspect AI extraction and jump across document structure.</li>
+                                <li>Keep the reader view focused on playback and document work, not utility clutter.</li>
+                                <li>Use Notes and User Manual from the top bar whenever you need them.</li>
+                            </ul>
+                        </div>
+                    </article>
+
+                    <article class="card analysis-card">
+                        <div class="section-header">
+                            <div>
+                                <span class="eyebrow">Import Scope</span>
+                                <h3>Supported content</h3>
+                            </div>
+                        </div>
+                        <div class="content-list">
+                            <ul>
+                                <li>PDF, DOCX, DOC, PPTX, PPT, XLSX, EPUB</li>
+                                <li>TXT, Markdown, CSV, JSON, RTF</li>
+                                <li>HTML, HTM, XML, ODT, ODP</li>
+                            </ul>
+                        </div>
+                    </article>
+                </section>
             </section>
         </main>
 
@@ -389,6 +438,58 @@
             <div id="status" class="status-indicator" style="display: none;">Ready</div>
         </footer>
     </div>
+
+    <div id="panelBackdrop" class="panel-backdrop"></div>
+
+    <aside id="manualPanel" class="side-panel">
+        <div class="side-panel-header">
+            <div>
+                <span class="eyebrow">Support</span>
+                <h3>User Manual</h3>
+            </div>
+            <button class="panel-close" type="button" data-close-panel="manualPanel"><i class="fas fa-xmark"></i></button>
+        </div>
+        <div class="side-panel-body manual-content">
+            <div class="manual-block">
+                <h4>1. Choose A Workspace View</h4>
+                <p>Use Dashboard for AI output, Reader for document playback, and AI Studio for glossary and structure review.</p>
+            </div>
+            <div class="manual-block">
+                <h4>2. Import Or Paste Content</h4>
+                <p>Open Reader, upload a supported file or paste content into the source box. LEXIO will rebuild it into a synchronized reading surface.</p>
+            </div>
+            <div class="manual-block">
+                <h4>3. Tune The Voice</h4>
+                <p>Select language, accent, and persona. The exact available voices depend on your system voice pack.</p>
+            </div>
+            <div class="manual-block">
+                <h4>4. Let AI Assist</h4>
+                <p>Use Executive Brief, Study Notes, Presentation Flow, and Q&amp;A prompts from Dashboard to switch your working mode quickly.</p>
+            </div>
+            <div class="manual-block">
+                <h4>5. Read Naturally</h4>
+                <p>Use Start, Pause, Resume, and Stop in Reader. Highlights will follow the spoken text and keep the document centered if focus tracking is enabled.</p>
+            </div>
+        </div>
+    </aside>
+
+    <aside id="notesPanel" class="side-panel">
+        <div class="side-panel-header">
+            <div>
+                <span class="eyebrow">Workspace Utility</span>
+                <h3>Notes</h3>
+            </div>
+            <button class="panel-close" type="button" data-close-panel="notesPanel"><i class="fas fa-xmark"></i></button>
+        </div>
+        <div class="side-panel-body">
+            <label for="notesInput" class="field-title">Private working notes</label>
+            <textarea id="notesInput" class="notes-input" placeholder="Capture your talking points, reminders, or revisions here..."></textarea>
+            <div class="notes-actions">
+                <button id="saveNotesBtn" class="btn btn-primary" type="button"><i class="fas fa-floppy-disk"></i> Save Notes</button>
+                <span id="notesStatus" class="notes-status">Saved locally on this device</span>
+            </div>
+        </div>
+    </aside>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
@@ -404,5 +505,3 @@
     <script src="js/ai.js"></script>
 </body>
 </html>
-
-
