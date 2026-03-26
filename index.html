@@ -38,17 +38,26 @@
                     <p class="tagline">AI-assisted speech, document intelligence, and reading control</p>
                 </div>
                 <form id="loginForm" class="login-form">
+                    <div class="avatar-upload-row">
+                        <div id="loginAvatarPreview" class="login-avatar-preview">LB</div>
+                        <div class="avatar-upload-copy">
+                            <label for="avatarInput">Profile photo</label>
+                            <p>Add a display photo for your workspace identity.</p>
+                            <input type="file" id="avatarInput" accept="image/*" hidden>
+                            <button id="avatarPickerBtn" class="secondary-action" type="button"><i class="fas fa-camera"></i> Add display photo</button>
+                        </div>
+                    </div>
                     <div class="form-group">
                         <label for="name">Full Name</label>
-                        <input type="text" id="name" required placeholder="Aarav Mehta">
+                        <input type="text" id="name" required placeholder="Liam Brooks">
                     </div>
                     <div class="form-group">
                         <label for="email">Work Email</label>
-                        <input type="email" id="email" required placeholder="aarav@company.com">
+                        <input type="email" id="email" required placeholder="liam.brooks@company.com">
                     </div>
                     <div class="form-group">
                         <label for="phone">Phone Number</label>
-                        <input type="tel" id="phone" required placeholder="+91 98765 43210">
+                        <input type="tel" id="phone" required placeholder="+1 415 555 0188">
                     </div>
                     <button type="submit" class="login-btn">
                         Enter Workspace <i class="fas fa-arrow-right"></i>
@@ -73,6 +82,7 @@
             <div class="nav-actions">
                 <button id="openManualBtn" class="utility-btn" type="button"><i class="fas fa-book-open"></i> User Manual</button>
                 <button id="openNotesBtn" class="utility-btn" type="button"><i class="fas fa-note-sticky"></i> Notes</button>
+                <button id="openAssistantBtn" class="utility-btn utility-btn-primary" type="button"><i class="fas fa-sparkles"></i> AI Assistant</button>
                 <div class="nav-user">
                     <div class="user-info">
                         <span class="user-greeting">Welcome, <span id="userName">User</span></span>
@@ -487,6 +497,30 @@
             <div class="notes-actions">
                 <button id="saveNotesBtn" class="btn btn-primary" type="button"><i class="fas fa-floppy-disk"></i> Save Notes</button>
                 <span id="notesStatus" class="notes-status">Saved locally on this device</span>
+            </div>
+        </div>
+    </aside>
+
+    <aside id="assistantPanel" class="side-panel assistant-panel">
+        <div class="side-panel-header">
+            <div>
+                <span class="eyebrow">AI Assistant</span>
+                <h3>Document chat</h3>
+            </div>
+            <button class="panel-close" type="button" data-close-panel="assistantPanel"><i class="fas fa-xmark"></i></button>
+        </div>
+        <div class="side-panel-body assistant-body">
+            <div id="assistantMessages" class="assistant-messages">
+                <div class="assistant-message assistant-message-bot">
+                    <strong>LEXIO Assistant</strong>
+                    <p>Ask me about the current document, request a summary, or ask for the most important sections.</p>
+                </div>
+            </div>
+            <div class="assistant-input-wrap">
+                <textarea id="assistantInput" class="assistant-input" placeholder="Ask about this document, for example: What are the main risks?"></textarea>
+                <div class="assistant-actions">
+                    <button id="assistantSendBtn" class="btn btn-primary" type="button"><i class="fas fa-paper-plane"></i> Send</button>
+                </div>
             </div>
         </div>
     </aside>

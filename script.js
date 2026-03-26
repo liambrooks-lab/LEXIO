@@ -102,8 +102,9 @@
             'activeDocumentType', 'fileBadge', 'voiceCoverage', 'progressBar', 'progressLabel',
             'playbackLabel', 'languageSelect', 'smartCleanup', 'smartChunking', 'toggleFocusModeBtn',
             'speedRange', 'speedValue', 'pitchRange', 'pitchValue', 'demoBtn', 'clearBtn',
-            'openManualBtn', 'openNotesBtn', 'manualPanel', 'notesPanel', 'panelBackdrop',
-            'notesInput', 'saveNotesBtn', 'notesStatus', 'qualityPulse'
+            'openManualBtn', 'openNotesBtn', 'openAssistantBtn', 'manualPanel', 'notesPanel',
+            'assistantPanel', 'panelBackdrop', 'notesInput', 'saveNotesBtn', 'notesStatus',
+            'qualityPulse', 'assistantMessages', 'assistantInput', 'assistantSendBtn'
         ].forEach(function(id) {
             els[id] = document.getElementById(id);
         });
@@ -184,6 +185,12 @@
             });
         }
 
+        if (els.openAssistantBtn) {
+            els.openAssistantBtn.addEventListener('click', function() {
+                openPanel('assistantPanel');
+            });
+        }
+
         if (els.panelBackdrop) {
             els.panelBackdrop.addEventListener('click', closePanels);
         }
@@ -203,6 +210,35 @@
                 }
             });
         }
+
+        if (els.assistantSendBtn) {
+            els.assistantSendBtn.addEventListener('click', submitAssistantPrompt);
+        }
+
+        if (els.assistantInput) {
+            els.assistantInput.addEventListener('keydown', function(event) {
+                if (event.key === 'Enter' && !event.shiftKey) {
+                    event.preventDefault();
+                    submitAssistantPrompt();
+                }
+            });
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'PrintScreen') {
+                announceScreenshotDetection('LEXIO detected a screenshot key event.');
+            }
+        });
+
+        document.addEventListener('paste', function(event) {
+            const clipboardItems = event.clipboardData && event.clipboardData.items ? event.clipboardData.items : [];
+            const containsImage = Array.prototype.slice.call(clipboardItems).some(function(item) {
+                return item && typeof item.type === 'string' && item.type.indexOf('image/') === 0;
+            });
+            if (containsImage) {
+                announceScreenshotDetection('LEXIO noticed an image capture being pasted into the workspace.');
+            }
+        });
 
         if (new URLSearchParams(window.location.search).has('dev')) {
             const loginPage = document.getElementById('loginPage');
@@ -238,7 +274,7 @@
     }
 
     function closePanels() {
-        ['manualPanel', 'notesPanel'].forEach(function(id) {
+        ['manualPanel', 'notesPanel', 'assistantPanel'].forEach(function(id) {
             const panel = document.getElementById(id);
             if (panel) {
                 panel.classList.remove('open');
@@ -272,6 +308,74 @@
             els.notesStatus.textContent = 'Saved locally on this device';
         }
         window.showStatus('Notes saved', 'success');
+    }
+
+    function submitAssistantPrompt() {
+        if (!els.assistantInput || !els.assistantMessages) {
+            return;
+        }
+
+        const prompt = (els.assistantInput.value || '').trim();
+        if (!prompt) {
+            window.showStatus('Type a question for the AI assistant first', 'warning');
+            return;
+        }
+
+        appendAssistantMessage('user', prompt);
+        els.assistantInput.value = '';
+
+        const answer = window.lexioAI && typeof window.lexioAI.answerQuestion === 'function'
+            ? window.lexioAI.answerQuestion(prompt)
+            : {
+                title: 'LEXIO Assistant',
+                items: ['The assistant is warming up. Try again in a moment after the document finishes loading.']
+            };
+
+        window.setTimeout(function() {
+            appendAssistantMessage('bot', answer.items, answer.title || 'LEXIO Assistant');
+            if (answer.followUp) {
+                window.showStatus(answer.followUp, 'info');
+            }
+        }, 180);
+    }
+
+    function appendAssistantMessage(role, content, title) {
+        if (!els.assistantMessages) {
+            return;
+        }
+
+        const wrapper = document.createElement('div');
+        wrapper.className = 'assistant-message ' + (role === 'user' ? 'assistant-message-user' : 'assistant-message-bot');
+
+        const heading = document.createElement('strong');
+        heading.textContent = title || (role === 'user' ? 'You' : 'LEXIO Assistant');
+        wrapper.appendChild(heading);
+
+        if (Array.isArray(content)) {
+            const list = document.createElement('ul');
+            content.forEach(function(item) {
+                const li = document.createElement('li');
+                li.textContent = item;
+                list.appendChild(li);
+            });
+            wrapper.appendChild(list);
+        } else {
+            const paragraph = document.createElement('p');
+            paragraph.textContent = content;
+            wrapper.appendChild(paragraph);
+        }
+
+        els.assistantMessages.appendChild(wrapper);
+        els.assistantMessages.scrollTop = els.assistantMessages.scrollHeight;
+    }
+
+    function announceScreenshotDetection(message) {
+        const now = Date.now();
+        if (announceScreenshotDetection.lastAlertAt && now - announceScreenshotDetection.lastAlertAt < 2500) {
+            return;
+        }
+        announceScreenshotDetection.lastAlertAt = now;
+        window.showStatus(message, 'warning');
     }
 
     function hideLoadingScreen() {
@@ -744,3 +848,4 @@
             .replace(/"/g, '&quot;');
     }
 })();
+

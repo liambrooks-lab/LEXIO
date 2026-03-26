@@ -74,7 +74,12 @@
                 return;
             }
             window.clearInterval(timer);
-            window.lexioAI = { refresh: refresh, applyMode: applyMode };
+            window.lexioAI = {
+                refresh: refresh,
+                applyMode: applyMode,
+                getInsights: buildInsights,
+                answerQuestion: answerQuestion
+            };
             applyMode(els.readingModeSelect && els.readingModeSelect.value ? els.readingModeSelect.value : 'adaptive', false);
             refresh();
             window.setInterval(refresh, 500);
@@ -136,6 +141,97 @@
             presentationFlow: presentationFlow,
             studyNotes: studyNotes,
             confidence: buildConfidence(text, sections, topics)
+        };
+    }
+
+    function answerQuestion(question) {
+        const app = window.lexioApp;
+        const state = app && app.getState ? app.getState() : null;
+        const text = state ? state.cleanedText || '' : '';
+        const insights = buildInsights();
+        const lowerQuestion = (question || '').toLowerCase();
+
+        if (!text.trim()) {
+            return {
+                title: 'No active document',
+                items: [
+                    'Load or paste a document first so I can answer based on real content.',
+                    'Once content is available, I can summarize it, find topics, highlight actions, and guide playback.'
+                ]
+            };
+        }
+
+        if (containsAny(lowerQuestion, ['summary', 'brief', 'overview', 'recap'])) {
+            return { title: 'Document summary', items: insights.summary };
+        }
+
+        if (containsAny(lowerQuestion, ['topic', 'themes', 'theme', 'subject', 'keywords'])) {
+            return { title: 'Key topics', items: insights.topics.length ? insights.topics : ['No strong topics were extracted yet.'] };
+        }
+
+        if (containsAny(lowerQuestion, ['glossary', 'entity', 'entities', 'term', 'terms', 'names'])) {
+            return { title: 'Glossary and entities', items: insights.glossary.length ? insights.glossary : ['No named entities stood out in the current content.'] };
+        }
+
+        if (containsAny(lowerQuestion, ['action', 'risk', 'important', 'priority', 'urgent', 'next step'])) {
+            return { title: 'Priority cues', items: insights.actions.length ? insights.actions : insights.summary };
+        }
+
+        if (containsAny(lowerQuestion, ['question', 'questions', 'review', 'qa', 'q&a'])) {
+            return { title: 'Review prompts', items: insights.questions };
+        }
+
+        if (containsAny(lowerQuestion, ['presentation', 'slides', 'pitch', 'present'])) {
+            return { title: 'Presentation flow', items: insights.presentationFlow };
+        }
+
+        if (containsAny(lowerQuestion, ['study', 'notes', 'revise', 'revision'])) {
+            return { title: 'Study notes', items: insights.studyNotes };
+        }
+
+        if (containsAny(lowerQuestion, ['outline', 'section', 'structure'])) {
+            return {
+                title: 'Document structure',
+                items: (state.sections || []).slice(0, 6).map(function(section) {
+                    return section.label + ': ' + snippet(section.text);
+                })
+            };
+        }
+
+        if (containsAny(lowerQuestion, ['language', 'voice', 'accent', 'persona'])) {
+            return {
+                title: 'Narration setup',
+                items: [
+                    'Detected language: ' + labelLanguage(app.getPreferredLanguage ? app.getPreferredLanguage() : state.detectedLanguage),
+                    'Open Reader to switch language, accent, and male or female persona filters.',
+                    'Voice availability still depends on the voices installed in the browser and operating system.'
+                ]
+            };
+        }
+
+        if (containsAny(lowerQuestion, ['how many', 'count', 'stats', 'numbers'])) {
+            return {
+                title: 'Workspace stats',
+                items: [
+                    'Words: ' + String((state.words || []).length),
+                    'Sections: ' + String((state.sections || []).length),
+                    'Detected language: ' + labelLanguage(state.detectedLanguage)
+                ]
+            };
+        }
+
+        const contextMatches = findContextMatches(question, text, state.sections || []);
+        if (contextMatches.length) {
+            return {
+                title: 'Best matching context',
+                items: contextMatches,
+                followUp: 'Assistant answer generated from your current document context.'
+            };
+        }
+
+        return {
+            title: 'Suggested next reads',
+            items: insights.summary.concat(insights.actions).slice(0, 4)
         };
     }
 
@@ -266,6 +362,31 @@
         return 'Focused';
     }
 
+    function findContextMatches(question, text, sections) {
+        const lowerQuestion = (question || '').toLowerCase();
+        const tokens = lowerQuestion.match(/[\p{L}\p{N}][\p{L}\p{N}'-]*/gu) || [];
+        const usefulTokens = tokens.filter(function(token) {
+            return token.length > 3 && (STOPWORDS.en.indexOf(token) === -1);
+        });
+        const candidates = splitSentences(text).concat(sections.map(function(section) {
+            return section.label + ': ' + snippet(section.text);
+        }));
+
+        return candidates.map(function(candidate) {
+            const lowerCandidate = candidate.toLowerCase();
+            const score = usefulTokens.reduce(function(total, token) {
+                return total + (lowerCandidate.indexOf(token) !== -1 ? 1 : 0);
+            }, 0);
+            return { candidate: candidate, score: score };
+        }).filter(function(item) {
+            return item.score > 0;
+        }).sort(function(a, b) {
+            return b.score - a.score;
+        }).slice(0, 4).map(function(item) {
+            return item.candidate;
+        });
+    }
+
     function renderOutline(sections) {
         if (!els.outlinePanel) {
             return;
@@ -342,6 +463,17 @@
             return;
         }
         els.aiResponse.innerHTML = '<div class="response-block"><h4>' + escapeHtml(title) + '</h4><ul>' + items.map(function(item) { return '<li>' + escapeHtml(item) + '</li>'; }).join('') + '</ul></div>';
+    }
+
+    function containsAny(text, needles) {
+        return needles.some(function(needle) {
+            return text.indexOf(needle) !== -1;
+        });
+    }
+
+    function labelLanguage(code) {
+        const labels = window.lexioLanguageLabels || {};
+        return labels[code] || labels.en || 'English';
     }
 
     function snippet(text) {
