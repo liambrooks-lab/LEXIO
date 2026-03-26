@@ -149,15 +149,72 @@
         const state = app && app.getState ? app.getState() : null;
         const text = state ? state.cleanedText || '' : '';
         const insights = buildInsights();
-        const lowerQuestion = (question || '').toLowerCase();
+        const lowerQuestion = (question || '').toLowerCase().trim();
+        const shortcutHelp = app && typeof app.getShortcutHelp === 'function' ? app.getShortcutHelp() : [];
+
+        if (containsAny(lowerQuestion, ['shortcut', 'shortcuts', 'keyboard', 'hotkey'])) {
+            return {
+                title: 'Keyboard shortcuts',
+                items: shortcutHelp.length ? shortcutHelp : ['Keyboard shortcuts are loading for this workspace.']
+            };
+        }
+
+        if (containsAny(lowerQuestion, ['what can you do', 'help', 'feature', 'features', 'capabilities', 'how to start', 'how do i use'])) {
+            return {
+                title: 'How I can help',
+                items: [
+                    'Import or paste a document, then ask me for a summary, key topics, action lines, or the most important sections.',
+                    'I can guide voice setup, language selection, reading modes, and playback controls.',
+                    'I can explain workspace shortcuts and help you move faster across Dashboard, Reader, and AI Studio.',
+                    'Supported imports include PDF, DOCX, DOC, PPTX, PPT, XLSX, EPUB, TXT, Markdown, CSV, JSON, RTF, HTML, XML, ODT, and ODP.'
+                ].concat(shortcutHelp.slice(0, 3))
+            };
+        }
+
+        if (containsAny(lowerQuestion, ['file', 'files', 'import', 'upload', 'supported', 'pdf', 'docx', 'ppt', 'xlsx', 'epub'])) {
+            return {
+                title: 'Supported imports',
+                items: [
+                    'Office and document files: PDF, DOCX, DOC, PPTX, PPT, XLSX, EPUB.',
+                    'Text and web formats: TXT, Markdown, CSV, JSON, RTF, HTML, HTM, XML.',
+                    'Open document formats: ODT and ODP.',
+                    'Open Reader and use Import Document or press Ctrl or Cmd + Shift + U.'
+                ]
+            };
+        }
+
+        if (containsAny(lowerQuestion, ['language', 'voice', 'accent', 'persona'])) {
+            return {
+                title: 'Narration setup',
+                items: [
+                    'Detected language: ' + labelLanguage(app && app.getPreferredLanguage ? app.getPreferredLanguage() : state && state.detectedLanguage ? state.detectedLanguage : 'en'),
+                    'Reader lets you switch language, accent, and male or female persona filters.',
+                    'Voice availability still depends on the voices installed in the browser and operating system.',
+                    'LEXIO supports English, Hindi, Arabic, Italian, and Spanish narration controls.'
+                ]
+            };
+        }
 
         if (!text.trim()) {
             return {
-                title: 'No active document',
+                title: 'LEXIO Assistant',
                 items: [
-                    'Load or paste a document first so I can answer based on real content.',
-                    'Once content is available, I can summarize it, find topics, highlight actions, and guide playback.'
+                    'No document is loaded yet, but I can still guide setup, imports, voices, and shortcuts.',
+                    'Start by opening Reader and importing a file or pasting text into the source editor.',
+                    'Then ask me for a summary, key topics, action cues, or the most important sections.',
+                    'Ask me things like: Which files can I import? How do shortcuts work? How should I tune voices?'
                 ]
+            };
+        }
+
+        if (containsAny(lowerQuestion, ['workspace briefing', 'quick briefing', 'briefing'])) {
+            return {
+                title: 'Workspace briefing',
+                items: [
+                    'Current document type: ' + (state.documentMeta && state.documentMeta.title ? state.documentMeta.title : 'Manual text'),
+                    'Sections detected: ' + String((state.sections || []).length),
+                    'Words detected: ' + String((state.words || []).length)
+                ].concat(insights.summary.slice(0, 2))
             };
         }
 
@@ -195,17 +252,6 @@
                 items: (state.sections || []).slice(0, 6).map(function(section) {
                     return section.label + ': ' + snippet(section.text);
                 })
-            };
-        }
-
-        if (containsAny(lowerQuestion, ['language', 'voice', 'accent', 'persona'])) {
-            return {
-                title: 'Narration setup',
-                items: [
-                    'Detected language: ' + labelLanguage(app.getPreferredLanguage ? app.getPreferredLanguage() : state.detectedLanguage),
-                    'Open Reader to switch language, accent, and male or female persona filters.',
-                    'Voice availability still depends on the voices installed in the browser and operating system.'
-                ]
             };
         }
 
@@ -485,3 +531,4 @@
         return String(value).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 })();
+

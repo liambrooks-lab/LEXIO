@@ -38,6 +38,7 @@
 
     window.showStatus = function(message, type) {
         const statusEl = document.getElementById('status');
+        const toastEl = ensureGlobalToast();
         const safeType = type || 'info';
         const palette = {
             success: '#0f9d58',
@@ -46,26 +47,44 @@
             info: '#2563eb'
         };
 
-        if (!statusEl) {
-            console.log('[' + safeType + '] ' + message);
-            return;
-        }
+        [statusEl, toastEl].forEach(function(target) {
+            if (!target) {
+                return;
+            }
+            target.textContent = message;
+            target.style.display = 'inline-flex';
+            target.style.borderColor = palette[safeType] || palette.info;
+            target.style.color = palette[safeType] || palette.info;
+            target.style.background = 'rgba(255, 255, 255, 0.96)';
+        });
 
-        statusEl.textContent = message;
-        statusEl.style.display = 'inline-flex';
-        statusEl.style.borderColor = palette[safeType] || palette.info;
-        statusEl.style.color = palette[safeType] || palette.info;
-        statusEl.style.background = 'rgba(255, 255, 255, 0.94)';
+        if (toastEl) {
+            toastEl.classList.add('visible');
+        }
 
         window.clearTimeout(window.showStatus.hideTimer);
         if (safeType !== 'error') {
             window.showStatus.hideTimer = window.setTimeout(function() {
-                if (!window.lexioPlayback || !window.lexioPlayback.isReading) {
+                if (statusEl && (!window.lexioPlayback || !window.lexioPlayback.isReading)) {
                     statusEl.style.display = 'none';
                 }
-            }, 2800);
+                if (toastEl) {
+                    toastEl.classList.remove('visible');
+                }
+            }, 3200);
         }
     };
+
+    function ensureGlobalToast() {
+        let toast = document.getElementById('globalToast');
+        if (!toast) {
+            toast = document.createElement('div');
+            toast.id = 'globalToast';
+            toast.className = 'status-indicator status-floating';
+            document.body.appendChild(toast);
+        }
+        return toast;
+    }
 
     document.addEventListener('DOMContentLoaded', init);
 
@@ -88,7 +107,8 @@
             clearActiveWord: clearActiveWord,
             updateProgress: updateProgress,
             refreshAfterTextChange: refreshFromSourceEditor,
-            getWordElement: function(index) { return state.wordElements[index] || null; }
+            getWordElement: function(index) { return state.wordElements[index] || null; },
+            getShortcutHelp: getShortcutHelp
         };
 
         activateView('dashboardView');
@@ -187,6 +207,7 @@
 
         if (els.openAssistantBtn) {
             els.openAssistantBtn.addEventListener('click', function() {
+                primeAssistantPanel();
                 openPanel('assistantPanel');
             });
         }
@@ -224,21 +245,8 @@
             });
         }
 
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'PrintScreen') {
-                announceScreenshotDetection('LEXIO detected a screenshot key event.');
-            }
-        });
-
-        document.addEventListener('paste', function(event) {
-            const clipboardItems = event.clipboardData && event.clipboardData.items ? event.clipboardData.items : [];
-            const containsImage = Array.prototype.slice.call(clipboardItems).some(function(item) {
-                return item && typeof item.type === 'string' && item.type.indexOf('image/') === 0;
-            });
-            if (containsImage) {
-                announceScreenshotDetection('LEXIO noticed an image capture being pasted into the workspace.');
-            }
-        });
+        bindGlobalShortcuts();
+        bindCaptureSignals();
 
         if (new URLSearchParams(window.location.search).has('dev')) {
             const loginPage = document.getElementById('loginPage');
@@ -267,6 +275,9 @@
         const panel = document.getElementById(panelId);
         if (!panel || !els.panelBackdrop) {
             return;
+        }
+        if (panelId === 'assistantPanel') {
+            primeAssistantPanel();
         }
         panel.classList.add('open');
         els.panelBackdrop.classList.add('visible');
@@ -308,6 +319,200 @@
             els.notesStatus.textContent = 'Saved locally on this device';
         }
         window.showStatus('Notes saved', 'success');
+    }
+
+    function bindGlobalShortcuts() {
+        if (bindGlobalShortcuts.bound) {
+            return;
+        }
+        bindGlobalShortcuts.bound = true;
+
+        document.addEventListener('keydown', function(event) {
+            if (event.defaultPrevented || !(event.ctrlKey || event.metaKey)) {
+                return;
+            }
+
+            const target = event.target;
+            const tagName = target && target.tagName ? target.tagName.toLowerCase() : '';
+            const isEditable = !!(target && (target.isContentEditable || tagName === 'input' || tagName === 'textarea' || tagName === 'select'));
+            const key = String(event.key || '').toLowerCase();
+
+            if (key === 'd' && event.shiftKey) {
+                event.preventDefault();
+                activateView('dashboardView');
+                window.showStatus('Shortcut: Dashboard view', 'info');
+                return;
+            }
+            if (key === 'r' && event.shiftKey) {
+                event.preventDefault();
+                activateView('readerView');
+                window.showStatus('Shortcut: Reader view', 'info');
+                return;
+            }
+            if (key === 'a' && event.shiftKey) {
+                event.preventDefault();
+                activateView('analysisView');
+                window.showStatus('Shortcut: AI Studio view', 'info');
+                return;
+            }
+            if (key === '.' || (key === 'k' && event.shiftKey)) {
+                event.preventDefault();
+                primeAssistantPanel();
+                openPanel('assistantPanel');
+                window.showStatus('Shortcut: AI Assistant opened', 'info');
+                return;
+            }
+            if (key === '/') {
+                event.preventDefault();
+                openPanel('manualPanel');
+                window.showStatus('Shortcut: User Manual opened', 'info');
+                return;
+            }
+            if (key === 'n' && event.shiftKey) {
+                event.preventDefault();
+                openPanel('notesPanel');
+                window.showStatus('Shortcut: Notes opened', 'info');
+                return;
+            }
+            if (key === 'u' && event.shiftKey) {
+                event.preventDefault();
+                activateView('readerView');
+                triggerButton('uploadBtn');
+                window.showStatus('Shortcut: Import document', 'info');
+                return;
+            }
+            if (key === 'e' && event.shiftKey) {
+                event.preventDefault();
+                activateView('readerView');
+                if (els.inputText) {
+                    els.inputText.focus();
+                }
+                window.showStatus('Shortcut: Focused source editor', 'info');
+                return;
+            }
+            if (key === 'enter') {
+                event.preventDefault();
+                togglePlaybackShortcut();
+                return;
+            }
+            if (key === 's') {
+                event.preventDefault();
+                if (!document.getElementById('notesPanel') || !document.getElementById('notesPanel').classList.contains('open')) {
+                    openPanel('notesPanel');
+                }
+                if (els.notesInput && !isEditable) {
+                    els.notesInput.focus();
+                }
+                saveNotes();
+            }
+        });
+    }
+
+    function bindCaptureSignals() {
+        if (bindCaptureSignals.bound) {
+            return;
+        }
+        bindCaptureSignals.bound = true;
+
+        document.addEventListener('keydown', function(event) {
+            const key = String(event.key || '');
+            const lowerKey = key.toLowerCase();
+            const screenshotCombo = key === 'PrintScreen'
+                || (event.shiftKey && (event.metaKey || event.ctrlKey) && lowerKey === 's')
+                || (event.shiftKey && event.metaKey && key === '4');
+
+            if (screenshotCombo) {
+                announceScreenshotDetection('LEXIO detected a screenshot shortcut.');
+            }
+        });
+
+        document.addEventListener('keyup', function(event) {
+            if (event.key === 'PrintScreen') {
+                announceScreenshotDetection('LEXIO detected a screenshot key event.');
+            }
+        });
+
+        document.addEventListener('paste', function(event) {
+            const clipboardItems = event.clipboardData && event.clipboardData.items ? event.clipboardData.items : [];
+            const containsImage = Array.prototype.slice.call(clipboardItems).some(function(item) {
+                return item && typeof item.type === 'string' && item.type.indexOf('image/') === 0;
+            });
+            if (containsImage) {
+                announceScreenshotDetection('LEXIO noticed an image capture being pasted into the workspace.');
+            }
+        });
+    }
+
+    function triggerButton(id) {
+        const button = document.getElementById(id);
+        if (button) {
+            button.click();
+        }
+    }
+
+    function togglePlaybackShortcut() {
+        const pauseBtn = document.getElementById('pauseBtn');
+        const resumeBtn = document.getElementById('resumeBtn');
+        const startBtn = document.getElementById('startBtn');
+
+        if (window.lexioPlayback && window.lexioPlayback.isReading && window.lexioPlayback.isPaused) {
+            if (resumeBtn) {
+                resumeBtn.click();
+            }
+            return;
+        }
+        if (window.lexioPlayback && window.lexioPlayback.isReading) {
+            if (pauseBtn) {
+                pauseBtn.click();
+            }
+            return;
+        }
+        activateView('readerView');
+        if (startBtn) {
+            startBtn.click();
+        }
+    }
+
+    function getShortcutHelp() {
+        return [
+            'Ctrl or Cmd + Shift + D: Open Dashboard',
+            'Ctrl or Cmd + Shift + R: Open Reader',
+            'Ctrl or Cmd + Shift + A: Open AI Studio',
+            'Ctrl or Cmd + Shift + E: Focus the source editor',
+            'Ctrl or Cmd + Shift + U: Import a document',
+            'Ctrl or Cmd + Enter: Start, pause, or resume narration',
+            'Ctrl or Cmd + .: Open AI Assistant',
+            'Ctrl or Cmd + /: Open User Manual',
+            'Ctrl or Cmd + Shift + N: Open Notes'
+        ];
+    }
+
+    function primeAssistantPanel() {
+        if (!els.assistantMessages) {
+            return;
+        }
+        const onlyStarterMessage = els.assistantMessages.querySelectorAll('.assistant-message').length <= 1
+            && !els.assistantMessages.querySelector('.assistant-message-user');
+
+        if (!onlyStarterMessage) {
+            return;
+        }
+
+        const intro = window.lexioAI && typeof window.lexioAI.answerQuestion === 'function'
+            ? window.lexioAI.answerQuestion(state.cleanedText.trim() ? 'Give me a quick workspace briefing for this document' : 'What can you do here?')
+            : {
+                title: 'LEXIO Assistant',
+                items: ['I can help with imports, voice setup, shortcuts, summaries, and reading guidance.']
+            };
+
+        els.assistantMessages.innerHTML = '';
+        appendAssistantMessage('bot', intro.items, intro.title || 'LEXIO Assistant');
+        if (!state.cleanedText.trim()) {
+            appendAssistantMessage('bot', [
+                'Try asking about supported files, reading modes, voices, or keyboard shortcuts.',
+                'Once a document is loaded, I can summarize it, find key topics, and point out important sections.'
+            ], 'Quick prompts');
+        }
     }
 
     function submitAssistantPrompt() {
@@ -848,4 +1053,6 @@
             .replace(/"/g, '&quot;');
     }
 })();
+
+
 
