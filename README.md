@@ -1,7 +1,7 @@
 #  LEXIO
 
 ![Version](https://img.shields.io/badge/version-1.0.0-8B5CF6)
-![License](https://img.shields.io/badge/license-MIT-10B981)
+![License](https://img.shields.io/badge/license-CUSTOM-10B981)
 ![Platform](https://img.shields.io/badge/platform-web-3B82F6)
 ![Status](https://img.shields.io/badge/status-stable-10B981)
 
