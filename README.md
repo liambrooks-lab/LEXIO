@@ -84,13 +84,13 @@ LEXIO/
 
 ### Installation
 
-# Clone the repository
+### 1.Clone the repository
 git clone https://github.com/liambrooks-lab/LEXIO.git
 
-# Navigate to project directory
+### 2.Navigate to project directory
 cd LEXIO
 
-# Open in browser
+### 3.Open in browser
 open index.html
 
 ## Development
@@ -110,24 +110,12 @@ open index.html
 | **Bundle Size** | < 500KB |
 | **Browser Support** | Chrome 33+, Firefox 49+, Safari 7+, Edge 14+ |
 
----
-
-## 🤝 Contributing
-
-We welcome contributions! Please see our [Contributing Guidelines](docs/CONTRIBUTING.md) for details.
-
-### Development Process
-1. **Fork** the repository
-2. **Create a feature branch** (`git checkout -b feature/amazing-feature`)
-3. **Commit changes** (`git commit -m 'Add amazing feature'`)
-4. **Push to branch** (`git push origin feature/amazing-feature`)
-5. **Open a Pull Request**
 
 ---
 
 ## 📄 License
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+This project is licensed- see the [LICENSE](LICENSE) file for details.
 
 ---
 
