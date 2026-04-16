@@ -47,31 +47,32 @@
 
 ## 📁 Project Structure
 
-LEXIO/
-├── index.html                # Main entry point
-├── styles.css               # Core styles and layout
-├── script.js                # Main application logic
-├── assets/                  # Static assets
-│   ├── favicon.ico          # Browser tab icon
-│   ├── logo.svg             # Application logo
-│   ├── fonts/               # Custom fonts (optional)
-│   └── icons/               # UI icons (optional)
-├── css/                     # Additional styles
-│   └── components.css       # Reusable component styles
-├── js/                      # JavaScript modules
-│   ├── auth.js              # Authentication logic
-│   ├── speech.js            # Speech synthesis engine
-│   ├── fileHandler.js       # File upload and processing
-│   └── utils.js             # Utility functions
-├── docs/                    # Documentation
-│   ├── API.md               # API reference
-│   ├── CONTRIBUTING.md      # Contribution guidelines
-│   └── CHANGELOG.md         # Version history
-└── .github/                 # GitHub configuration
+    LEXIO/
+    ├── index.html                # Main entry point
+    ├── styles.css               # Core styles and layout
+    ├── script.js                # Main application logic
+    ├── assets/                  # Static assets
+    │   ├── favicon.ico          # Browser tab icon
+    │   ├── logo.svg             # Application logo
+    │   ├── fonts/               # Custom fonts (optional)
+    │   └── icons/               # UI icons (optional)
+    ├── css/                     # Additional styles
+    │   └── components.css       # Reusable component styles
+    ├── js/                      # JavaScript modules
+    │   ├── auth.js              # Authentication logic
+    │   ├── speech.js            # Speech synthesis engine
+    │   ├── fileHandler.js       # File upload and processing
+    │   └── utils.js             # Utility functions
+    ├── docs/                    # Documentation
+    │   ├── API.md               # API reference
+    │   └── CHANGELOG.md         # Version history
+    │  
+    └── .github/                 # GitHub configuration
     ├── workflows/           # GitHub Actions
     │   └── deploy.yml       # Auto-deployment workflow
     ├── FUNDING.yml          # Sponsor configuration
     └── PULL_REQUEST_TEMPLATE.md
+
 
 
 ---
