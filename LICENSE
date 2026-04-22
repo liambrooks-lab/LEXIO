@@ -1,21 +1,35 @@
-MIT License
+Custom Restricted License
 
-Copyright (c) 2024 Rudranarayan Jena 
+Copyright (c) 2026 Rudranarayan Jena. All rights reserved.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+1. Ownership
+   This software project, including its source code, architecture, design, documentation, and all associated assets (collectively, the “Project”), is the sole and exclusive intellectual property of the author.
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+2. Grant of rights
+   No rights, licenses, or permissions are granted to any individual or entity, whether expressly or implicitly, except as explicitly stated in this license.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+3. Restrictions
+   Without prior written consent from the author, no person or organization may:
+
+* copy, reproduce, publish, or distribute the Project in any form
+* modify, adapt, reverse-engineer, or create derivative works
+* use the Project for commercial or non-commercial purposes
+* host, share, or make the Project publicly accessible
+
+Any unauthorized use is strictly prohibited.
+
+4. Permission requirement
+   Any individual or organization wishing to use, study, analyze, or build upon the Project must obtain explicit prior written permission from the author.
+
+5. Enforcement and violations
+   Unauthorized use, reproduction, or distribution of the Project constitutes a violation of intellectual property rights and may result in legal action, including claims for damages and injunctive relief.
+
+6. Disclaimer of warranty
+   The Project is provided “as is”, without warranty of any kind, express or implied, including but not limited to merchantability, fitness for a particular purpose, and non-infringement.
+
+7. Limitation of liability
+   In no event shall the author be liable for any direct, indirect, incidental, special, or consequential damages arising from the use of or inability to use the Project.
+
+8. Governing law
+   This license shall be governed by and construed in accordance with applicable laws.
+
