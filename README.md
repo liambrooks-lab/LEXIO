@@ -1,48 +1,124 @@
-#  LEXIO
-
-![Version](https://img.shields.io/badge/version-1.0.0-8B5CF6)
-![License](https://img.shields.io/badge/license-MIT-10B981)
-![Platform](https://img.shields.io/badge/platform-web-3B82F6)
-![Status](https://img.shields.io/badge/status-stable-10B981)
-
-> Transform text into natural speech with enterprise-grade controls and real-time word highlighting. Built for accessibility, education, and professional content creation.
+<p align="center">
+  <img src="assets/logo.svg" alt="LEXIO logo" width="220" />
+</p>
+<p align="center">
+  A premium multilingual reading workspace for document narration, synchronized highlighting, and AI-assisted reading control.
+</p>
+<p align="center">
+  <a href="https://liambrooks-lab.github.io/LEXIO/">Live Product</a>
+  |
+  <a href="https://github.com/liambrooks-lab/LEXIO">Repository</a>
+</p>
 
 ---
 
-## ✨ Features
+## ✨ Overview
+LEXIO is a browser-based AI reading workspace built to turn real documents into a polished multilingual narration experience. It combines document import, live text highlighting, voice filtering by language and accent, guided playback controls, structured reading modes, and AI-style document assistance inside one clean product interface.
 
-| Feature | Description |
-|---------|-------------|
-|  **Real-time Word Highlighting** | Watch words light up as they're spoken |
-|  **Full Playback Control** | Play, Pause, Resume, Stop with intuitive controls |
-|  **Adjustable Speed** | Customize reading pace from 0.5x to 3x |
-|  **Voice Selection** | Choose from multiple male and female voices |
-|  **File Upload** | Support for TXT and PDF documents (drag & drop) |
-|  **Click-to-Read** | Click any word to start reading from that position |
-|  **Responsive Design** | Seamless experience across desktop, tablet, and mobile |
-|  **Secure Authentication** | Simple login with name, email, and phone validation |
-|  **Real-time Analytics** | Word count, character count, and estimated reading time |
-|  **Activity Log** | Track all your actions in real-time |
+---
+
+## 🧭 What Is LEXIO?
+LEXIO is a front-end narration studio for users who want one workspace for reading, listening, reviewing, and understanding documents more efficiently.
+
+At the product level, LEXIO acts as:
+- a multilingual document reader
+- a browser-based AI-assisted text-to-speech workspace
+- a structured office-file narration interface
+- a document review tool with summaries, glossary, topics, and Q&A support
+
+---
+
+## 🩺 Problem It Solves
+Most text-to-speech tools fail in the places that matter during actual document work:
+
+- they only handle plain text comfortably
+- imported files lose structure or readability
+- playback feels robotic and hard to follow
+- users cannot stay visually synced with spoken output
+- there is no integrated space for summaries, notes, or document review help
+
+LEXIO solves that by giving users a cleaner end-to-end reading flow:
+- import or paste content
+- rebuild it into readable sections
+- choose better voice settings by language, accent, and persona
+- listen with live word highlighting and progress tracking
+- use AI-style outputs for briefing, studying, presenting, and reviewing
+
+---
+
+## 🔗 Links
+- **Live Product**: [https://liambrooks-lab.github.io/LEXIO/](https://liambrooks-lab.github.io/LEXIO/)
+- **GitHub Repository**: [https://github.com/liambrooks-lab/LEXIO](https://github.com/liambrooks-lab/LEXIO)
+- **Issues**: [https://github.com/liambrooks-lab/LEXIO/issues](https://github.com/liambrooks-lab/LEXIO/issues)
+
+---
+
+## 🚀 Latest Product State
+LEXIO currently ships with:
+
+- a branded login and workspace identity flow
+- `Dashboard`, `Reader`, and `AI Studio` workspace views
+- browser speech synthesis with multilingual voice filtering
+- live document rendering with clickable word playback
+- AI reading modes such as `Executive`, `Study`, `Presentation`, and `Accessibility`
+- smart cleanup and natural chunking for smoother narration
+- side panels for `User Manual`, `Notes`, and `AI Assistant`
+- document analytics including words, sections, characters, and estimated read time
+- support for office, text, markup, and ebook formats
+
+---
+
+## 🌌 Core Highlights
+- polished workspace onboarding and product-style UI
+- synchronized live highlighting during narration
+- language, accent, and persona-based voice selection
+- drag-and-drop import for real document formats
+- AI-style outputs for executive brief, study notes, presentation flow, and review prompts
+- local notes and document-aware assistant support
+- responsive layout for desktop and presentation use
+- modular JavaScript structure across import, speech, AI, auth, and utilities
+
+---
+
+## 🧩 Product Surface
+### Workspace experience
+- premium login screen with profile photo upload
+- workspace navigation across `Dashboard`, `Reader`, and `AI Studio`
+- identity, voice pack, and AI confidence chips in the top bar
+- keyboard shortcuts for faster control across views and tools
+
+### Reading experience
+- source editor for pasted or typed content
+- document viewer that rebuilds imported content into synchronized sections
+- playback controls for start, pause, resume, and stop
+- focus mode and progress tracking for long reading sessions
+
+### AI assist experience
+- executive brief generation
+- study note generation
+- presentation flow guidance
+- glossary extraction
+- topic extraction
+- Q&A and review prompt generation
 
 ---
 
 ## 🖼️ Demo Gallery
-
 <table>
   <tr>
     <td width="50%" valign="top">
       <img src="docs/readme/lexio-login.png" alt="LEXIO login experience" />
       <br />
-      <strong>1. Workspace entry and identity setup</strong>
+      <strong>1. Workspace entry and branding</strong>
       <br />
-      LEXIO opens with a branded login experience where users can add a display photo and enter the narration workspace with a clear product-first presentation.
+      LEXIO opens with a polished product-style login flow where users can add a display photo and enter a document narration workspace that feels structured and premium.
     </td>
     <td width="50%" valign="top">
       <img src="docs/readme/lexio-dashboard.png" alt="LEXIO dashboard view" />
       <br />
       <strong>2. Dashboard and AI reading assist</strong>
       <br />
-      The dashboard shows AI reading assistance, document stats, command-center actions, and the high-level outputs users need before starting playback.
+      The dashboard focuses on AI reading outputs, quick commands, live document metrics, and a strong overview of the current reading workspace.
     </td>
   </tr>
   <tr>
@@ -51,45 +127,42 @@
       <br />
       <strong>3. Reader and voice lab</strong>
       <br />
-      The reader workspace combines source editing, live document viewing, import actions, playback controls, and voice tuning across language, accent, and persona.
+      The reader view combines content import, document rendering, voice filtering, narration controls, and synchronized reading flow in one focused layout.
     </td>
     <td width="50%" valign="top">
-      <img src="docs/readme/lexio-ai-studio.png" alt="LEXIO AI studio view" />
+      <img src="docs/readme/lexio-ai-studio.png" alt="LEXIO AI Studio view" />
       <br />
       <strong>4. AI Studio and document inspection</strong>
       <br />
-      AI Studio focuses on glossary extraction, structure outline, review prompts, and supported import scope so users can inspect documents beyond playback alone.
+      AI Studio helps users inspect glossary terms, structure outline, review prompts, and supported import scope without cluttering the main reading view.
     </td>
   </tr>
 </table>
 
 ---
 
-## ❤️ Why LEXIO
-
-LEXIO is built around a simple promise:
-
+## 💡 Why LEXIO
+LEXIO is built around a simple product promise:
 - bring in a real document
-- make it readable and listenable
-- keep the visual structure visible while speaking
-- help the user understand the content faster
+- make it easier to follow
+- make it easier to listen to
+- make it easier to understand
 
-That promise drives the product design, feature set, and workspace layout across the entire project.
+That promise shapes the UI, the narration flow, the document viewer, and the AI assist layer across the project.
 
 ---
 
-## 🌍 Language And Format Support
+## 🌍 Language Support
+LEXIO supports multilingual narration controls and multi-format document reading for real-world content workflows.
 
 ### Narration languages
-
 - English
 - Hindi
 - Arabic
 - Italian
 - Spanish
 
-### Supported document formats
-
+### Supported import formats
 - PDF
 - DOCX
 - DOC
@@ -108,169 +181,204 @@ That promise drives the product design, feature set, and workspace layout across
 - ODT
 - ODP
 
-### Notes on voice availability
-
-LEXIO uses the browser's `SpeechSynthesis` engine, so the exact voices available depend on the operating system and browser voice packs installed on the device.
-
 ---
 
 ## 🛠️ Tech Stack
-
 ### Core frontend
-
 - HTML5
 - CSS3
 - JavaScript (ES6+)
 
-### Browser and speech layer
-
+### Browser capabilities
 - Web Speech API
-- DOMParser
+- DOM APIs
 - Local Storage
 
-### Document parsing libraries
-
+### Document parsing
 - PDF.js
 - Mammoth.js
 - JSZip
-- SheetJS (`xlsx`)
+- SheetJS
 
-### UI and assets
-
+### UI resources
 - Font Awesome
 - Google Fonts
 
 ---
 
-## 📁 Project Structure
-
+## 🧱 Project Structure
+```text
 LEXIO/
-├── index.html                # Main entry point
-├── styles.css               # Core styles and layout
-├── script.js                # Main application logic
-├── assets/                  # Static assets
-│   ├── favicon.ico          # Browser tab icon
-│   ├── logo.svg             # Application logo
-│   ├── fonts/               # Custom fonts (optional)
-│   └── icons/               # UI icons (optional)
-├── css/                     # Additional styles
-│   └── components.css       # Reusable component styles
-├── js/                      # JavaScript modules
-│   ├── auth.js              # Authentication logic
-│   ├── speech.js            # Speech synthesis engine
-│   ├── fileHandler.js       # File upload and processing
-│   └── utils.js             # Utility functions
-├── docs/                    # Documentation
-│   ├── API.md               # API reference
-│   ├── CONTRIBUTING.md      # Contribution guidelines
-│   └── CHANGELOG.md         # Version history
-└── .github/                 # GitHub configuration
-    ├── workflows/           # GitHub Actions
-    │   └── deploy.yml       # Auto-deployment workflow
-    ├── FUNDING.yml          # Sponsor configuration
-    └── PULL_REQUEST_TEMPLATE.md
-
+|- assets/
+|  |- favicon.ico.ico
+|  `- logo.svg
+|- css/
+|  `- components.css
+|- docs/
+|  |- API.md
+|  |- CHANGELOG.md
+|  |- CONTRIBUTING.md
+|  `- readme/
+|     |- author-rudranarayan-jena.jpg
+|     |- lexio-ai-studio.png
+|     |- lexio-dashboard.png
+|     |- lexio-login.png
+|     `- lexio-reader.png
+|- js/
+|  |- ai.js
+|  |- auth.js
+|  |- fileHandler.js
+|  |- speech.js
+|  `- utils.js
+|- index.html
+|- LICENSE
+|- package.json
+|- README.md
+|- script.js
+`- styles.css
+```
 
 ---
 
-## ⚙️ Local Setup
+## 🏗️ Architecture
+### Frontend responsibilities
+- workspace onboarding and identity flow
+- document rendering and analytics
+- playback control and active-word synchronization
+- notes, manual, and assistant side panels
+- dashboard and AI studio presentation
 
+### Import and reading flow
+1. User pastes content or imports a supported file.
+2. LEXIO parses the file based on its format.
+3. The content is normalized into readable sections.
+4. The document viewer renders clickable word-level reading blocks.
+5. The speech layer generates narration with synced highlighting.
+6. The AI layer refreshes summaries, topics, glossary, and prompts.
+
+### Speech behavior
+- voice selection is filtered by language, accent, and persona
+- reading is chunked naturally for smoother playback
+- progress and active-word state stay aligned with narration
+- supported voices depend on browser and operating system voice packs
+
+---
+
+## ✅ Validation Snapshot
+The current repo state includes:
+- modular JavaScript split into `auth`, `speech`, `fileHandler`, `ai`, and `utils`
+- local run scripts through `live-server`
+- real document import handling for multiple formats
+- no dedicated automated test suite yet beyond the placeholder npm script
+
+---
+
+## 📦 Key Capabilities
+- branded reading workspace
+- multilingual document narration
+- live highlighted playback
+- office-file and ebook import support
+- AI reading modes and summary-style outputs
+- notes, assistant, and manual panels
+- keyboard shortcuts for faster navigation
+- responsive static deployment suitable for demos and portfolio presentation
+
+---
+
+## 🎯 Current Scope
+LEXIO is currently positioned as a polished front-end MVP with:
+- real document import
+- multilingual speech playback
+- structured dashboard and reader flows
+- AI-assisted reading outputs
+- local identity and notes support
+- a live static deployment link
+
+---
+
+## 🧪 Local Setup
 ### Prerequisites
-- A modern web browser (Chrome, Firefox, Safari, Edge)
-- Local server (optional, recommended for PDF support)
+- Node.js `14+`
+- npm `6+`
+- a modern browser with Web Speech API support
 
-### Installation
+### Install dependencies
+```bash
+npm install
+```
 
-# Clone the repository
-git clone https://github.com/liambrooks-lab/LEXIO.git
+### Run local development server
+```bash
+npm run dev
+```
 
-# Navigate to project directory
-cd LEXIO
+### Alternate start command
+```bash
+npm start
+```
 
-# Open in browser
-open index.html
-
-## Development
-# Using VS Code Live Server
-1. Install Live Server extension
-2. Right-click index.html
-3. Select "Open with Live Server"
-4. Visit http://localhost:5500
-
-## 📊 Performance Metrics
-
-| Metric | Value |
-| :--- | :--- |
-| **First Contentful Paint** | < 1.5s |
-| **Time to Interactive** | < 3s |
-| **Lighthouse Score** | 95+ |
-| **Bundle Size** | < 500KB |
-| **Browser Support** | Chrome 33+, Firefox 49+, Safari 7+, Edge 14+ |
+### Local URL
+- `http://localhost:3000`
 
 ---
 
-## 🤝 Contributing
+## 🏁 Build Commands
+### Start development
+```bash
+npm run dev
+```
 
-We welcome contributions! Please see our [Contributing Guidelines](docs/CONTRIBUTING.md) for details.
+### Start local preview
+```bash
+npm start
+```
 
-### Development Process
-1. **Fork** the repository
-2. **Create a feature branch** (`git checkout -b feature/amazing-feature`)
-3. **Commit changes** (`git commit -m 'Add amazing feature'`)
-4. **Push to branch** (`git push origin feature/amazing-feature`)
-5. **Open a Pull Request**
+### Test placeholder
+```bash
+npm test
+```
 
 ---
 
-## 📜 License
+## 🌐 Deployment
+### Live deployment
+- hosted as a static web experience
+- public product URL: [https://liambrooks-lab.github.io/LEXIO/](https://liambrooks-lab.github.io/LEXIO/)
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
+### Deployment profile
+- lightweight browser-first frontend
+- no separate backend service required
+- speech output depends on the client browser environment
+
+---
+
+## 📄 License
+LEXIO is released under the **MIT License**.
+
+The full license text is available in [LICENSE](LICENSE).
+
+License summary:
+- copyright (c) 2024 Rudranarayan Jena
+- permission is granted to use, copy, modify, merge, publish, distribute, sublicense, and sell copies of the software
+- the software is provided "as is", without warranty of any kind
 
 ---
 
 ## 👨‍💻 Author
-
 <p align="center">
   <img src="docs/readme/author-rudranarayan-jena.jpg" alt="Rudranarayan Jena" width="180" />
 </p>
-
 <p align="center">
   <strong>Crafted by MR. Rudranarayan Jena</strong>
 </p>
-
 <p align="center">
   Product Builder • Front-end Developer • AI Enthusiast • Creator of LEXIO
 </p>
-
 <p align="center">
-  Focused on building polished browser products, practical AI-assisted experiences, and interfaces that feel like real software instead of rough demos.
+  Focused on building polished browser products, multilingual reading experiences, and AI-assisted interfaces that feel like complete software products.
 </p>
-
 <p align="center">
   <a href="https://github.com/liambrooks-lab">GitHub: @liambrooks-lab</a>
-  |
-  <a href="https://github.com/liambrooks-lab/LEXIO">Project Repository</a>
 </p>
 
 ---
-
-## 🙌 Acknowledgments
-
-- **Web Speech API** for browser-native narration support
-- **PDF.js** for PDF extraction in the browser
-- **Mammoth.js** for DOCX text extraction
-- **JSZip** and **SheetJS** for document parsing support
-- everyone who tests, reviews, and helps improve the product
-
----
-
-## 📬 Support
-
-- **Issues**: [Report a bug](https://github.com/liambrooks-lab/LEXIO/issues)
-- **Repository**: [https://github.com/liambrooks-lab/LEXIO](https://github.com/liambrooks-lab/LEXIO)
-
----
-
-## ⭐ Show Your Support
-
-If you like LEXIO, consider giving the project a **star** on GitHub.
