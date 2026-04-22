@@ -1,6 +1,7 @@
 <p align="center">
   <img src="assets/logo.svg" alt="LEXIO logo" width="220" />
 </p>
+<h1 align="center">LEXIO</h1>
 <p align="center">
   A premium multilingual reading workspace for document narration, synchronized highlighting, and AI-assisted reading control.
 </p>
@@ -353,14 +354,19 @@ npm test
 ---
 
 ## 📄 License
-LEXIO is released under the **MIT License**.
+
+LEXIO is protected under a custom restricted license.
 
 The full license text is available in [LICENSE](LICENSE).
 
 License summary:
-- copyright (c) 2024 Rudranarayan Jena
-- permission is granted to use, copy, modify, merge, publish, distribute, sublicense, and sell copies of the software
-- the software is provided "as is", without warranty of any kind
+
+- copyright © 2026 Rudranarayan Jena
+- all rights reserved
+- no copying, modification, distribution, hosting, reuse, or derivative work without prior written permission
+- no commercial or non-commercial use is allowed unless explicitly approved by the author
+
+LEXIO is not released as an open-source project under MIT, Apache, GPL, or any other permissive/public license.
 
 ---
 
