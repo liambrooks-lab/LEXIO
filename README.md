@@ -48,10 +48,8 @@ LEXIO solves that by giving users a cleaner end-to-end reading flow:
 ---
 
 ## 🔗 Links
-- **[Live Product](https://liambrooks-lab.github.io/LEXIO/)**
-- **[GitHub Repository](https://github.com/liambrooks-lab/LEXIO)**
-- **[Issues](https://github.com/liambrooks-lab/LEXIO/issues)**
-
+- **[Click to try Out LEXIO Live](https://liambrooks-lab.github.io/LEXIO/)**
+- **[Click to View GitHub Repository](https://github.com/liambrooks-lab/LEXIO)**
 ---
 
 ## 🚀 Latest Product State
