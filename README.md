@@ -48,9 +48,9 @@ LEXIO solves that by giving users a cleaner end-to-end reading flow:
 ---
 
 ## 🔗 Links
-- **Live Product**: [https://liambrooks-lab.github.io/LEXIO/](https://liambrooks-lab.github.io/LEXIO/)
-- **GitHub Repository**: [https://github.com/liambrooks-lab/LEXIO](https://github.com/liambrooks-lab/LEXIO)
-- **Issues**: [https://github.com/liambrooks-lab/LEXIO/issues](https://github.com/liambrooks-lab/LEXIO/issues)
+- **[Live Product](https://liambrooks-lab.github.io/LEXIO/)**
+- **[GitHub Repository](https://github.com/liambrooks-lab/LEXIO)**
+- **[Issues](https://github.com/liambrooks-lab/LEXIO/issues)**
 
 ---
 
