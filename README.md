@@ -48,9 +48,9 @@ LEXIO solves that by giving users a cleaner end-to-end reading flow:
 ---
 
 ## 🔗 Links
-- **[Live Product](https://liambrooks-lab.github.io/LEXIO/)**
+- **[View LEXIO Live](https://voxion-labs.github.io/LEXIO/)**
 - **[GitHub Repository](https://github.com/liambrooks-lab/LEXIO)**
-- **[Issues](https://github.com/liambrooks-lab/LEXIO/issues)**
+- **[Issues](https://github.com/voxion-labs/LEXIO/issues)**
 
 ---
 
@@ -344,7 +344,7 @@ npm test
 ## 🌐 Deployment
 ### Live deployment
 - hosted as a static web experience
-- public product URL: [https://liambrooks-lab.github.io/LEXIO/](https://liambrooks-lab.github.io/LEXIO/)
+- public product URL: [https://voxion-labs.github.io/LEXIO/](Click to visit URL)
 
 ### Deployment profile
 - lightweight browser-first frontend
