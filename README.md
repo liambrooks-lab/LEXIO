@@ -6,7 +6,7 @@
   A premium multilingual reading workspace for document narration, synchronized highlighting, and AI-assisted reading control.
 </p>
 <p align="center">
-  <a href="https://liambrooks-lab.github.io/LEXIO/">Live Product</a>
+  <a href="https://voxion-labs.github.io/LEXIO/">Live Product</a>
   |
   <a href="https://github.com/liambrooks-lab/LEXIO">Repository</a>
 </p>
@@ -48,9 +48,9 @@ LEXIO solves that by giving users a cleaner end-to-end reading flow:
 ---
 
 ## 🔗 Links
-- **[Live Product](https://liambrooks-lab.github.io/LEXIO/)**
+- **[Live Product](https://voxion-labs.github.io/LEXIO/)**
 - **[GitHub Repository](https://github.com/liambrooks-lab/LEXIO)**
-- **[Issues](https://github.com/liambrooks-lab/LEXIO/issues)**
+- **[Issues](https://github.com/voxion-labs/LEXIO/issues)**
 
 ---
 
@@ -378,7 +378,7 @@ LEXIO is not released as an open-source project under MIT, Apache, GPL, or any o
   <strong>Crafted by MR. Rudranarayan Jena</strong>
 </p>
 <p align="center">
-  Product Builder • Front-end Developer • AI Enthusiast • Creator of LEXIO
+  Founder @ Voxion Labs
 </p>
 <p align="center">
   Focused on building polished browser products, multilingual reading experiences, and AI-assisted interfaces that feel like complete software products.
