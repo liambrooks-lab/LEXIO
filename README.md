@@ -343,8 +343,8 @@ npm test
 
 ## 🌐 Deployment
 ### Live deployment
-- hosted as a static web experience
-- public product URL: [https://voxion-labs.github.io/LEXIO/](Click to visit URL)
+- Hosted as a static web experience
+- Public product URL: [https://voxion-labs.github.io/LEXIO/]
 
 ### Deployment profile
 - lightweight browser-first frontend
