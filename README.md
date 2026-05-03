@@ -375,10 +375,10 @@ LEXIO is not released as an open-source project under MIT, Apache, GPL, or any o
   <img src="docs/readme/author-rudranarayan-jena.jpg" alt="Rudranarayan Jena" width="180" />
 </p>
 <p align="center">
-  <strong>Crafted by MR. Rudranarayan Jena</strong>
+  <strong>Crafted by Rudranarayan Jena</strong>
 </p>
 <p align="center">
-  Founder @ Voxion Labs
+  <strong>Founder @ Voxion Labs</strong>
 </p>
 <p align="center">
   Focused on building polished browser products, multilingual reading experiences, and AI-assisted interfaces that feel like complete software products.
